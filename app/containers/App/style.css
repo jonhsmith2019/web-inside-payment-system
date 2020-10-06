@@ -1,0 +1,44 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+  line-height: 1.5;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+#app {
+  background-color: #f1f4f6;
+  min-height: 100%;
+  min-width: 100%;
+}
+
+p,
+label {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.5em;
+}
+.ant-form-item-label > label {
+  font-family: 'Roboto', sans-serif;
+}
+.page-content-wrapper {
+  position: relative;
+  background: #fff;
+  border-radius: 2px;
+  margin: 24px 0px 0;
+  padding: 24px;
+}
+.anticon {
+  vertical-align: 1px;
+}
+.ant-popover-buttons {
+  text-align: center;
+}
+.ant-menu-inline .ant-menu-item::after {
+  border-right: none;
+}
+.ant-page-header-heading-title {
+  text-transform: uppercase;
+}

@@ -1,0 +1,8 @@
+@media only screen and (max-width: 960px) {
+  .table-responsive table {
+    width: 1500px;
+  }
+  .table-responsive .ant-table-content {
+    overflow: auto;
+  }
+}

@@ -1,0 +1,8 @@
+@media only screen and (max-width: 1920px) {
+  .table-responsive.table-jackpot-config table {
+    width: 1920px;
+  }
+  .table-responsive.table-jackpot-config .ant-table-content {
+    overflow: auto;
+  }
+}

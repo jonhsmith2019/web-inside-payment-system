@@ -1,0 +1,198 @@
+.header-brand {
+  height: 64px;
+  width: 260px;
+  padding-left: 24px;
+  background: #1572e8;
+}
+.header-wrapper {
+  background: #1269db;
+}
+.header-brand h1 a {
+  color: #fff;
+}
+.ant-menu-inline,
+.ant-menu-vertical,
+.ant-menu-vertical-left {
+  border-right: none;
+}
+.sidebar__sub-menu.ant-menu-submenu-selected .ant-menu-submenu-title {
+  font-weight: 700;
+}
+
+.sidebar__sub-menu .anticon svg {
+  color: #adadad;
+}
+
+.sidebar-collaped .sidebar__sub-menu .anticon svg {
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.sidebar__sub-menu .ant-menu-submenu-arrow::before,
+.sidebar__sub-menu .ant-menu-submenu-arrow::after {
+  opacity: 0.5;
+}
+
+.sidebar__sub-menu .ant-menu-sub {
+  padding: 0 24px 0 24px;
+  position: relative;
+}
+/* 
+.sidebar__sub-menu .ant-menu-sub::after {
+  content: '';
+  height: 100%;
+  opacity: 1;
+  width: 3px;
+  background: #e0f3ff;
+  position: absolute;
+  left: 29px;
+  top: 0;
+  border-radius: 15px;
+} */
+
+.sidebar__sub-menu .ant-menu-item::after {
+  display: none;
+}
+
+.sidebar__sub-menu .ant-menu-item {
+  padding-left: 12px !important;
+}
+
+.sidebar__sub-menu .ant-menu-item.ant-menu-item-selected {
+  border-radius: 0.25rem;
+  font-weight: 700;
+  background: #e0f3ff;
+}
+
+.sidebar__sub-menu .ant-menu-submenu-title .ant-menu-submenu-arrow {
+  right: 24px;
+}
+
+.ant-menu-submenu-popup .ant-menu-item {
+  padding-left: 16px !important;
+}
+
+.ant-menu.ant-menu-dark,
+.ant-menu-dark .ant-menu-sub,
+.ant-menu-dark .ant-menu-inline.ant-menu-sub {
+  background: none;
+}
+.ant-layout.dark .header-wrapper {
+  background: #fff;
+  color: rgba(0, 0, 0, 0.65);
+}
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background: hsla(0, 0%, 100%, 0.1);
+  color: hsla(0, 0%, 100%, 0.8);
+}
+
+.ant-layout.dark .header-brand {
+  background: #001d35;
+}
+.ant-layout.dark .header-brand h1 {
+  color: #fff;
+}
+
+.ant-layout.asteroid .ant-layout-sider {
+  background-image: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+}
+
+.ant-layout.asteroid .header-brand {
+  background: #2c5364;
+}
+
+.ant-layout.asteroid .header-brand h1 {
+  color: #fff;
+}
+.ant-layout.asteroid .header-wrapper {
+  background: #fff;
+  color: rgba(0, 0, 0, 0.65);
+}
+.ant-layout.blue .ant-layout-sider {
+  background-color: #096dd9;
+}
+.ant-layout.blue .header-wrapper {
+  background: #fff;
+  color: rgba(0, 0, 0, 0.65);
+}
+.ant-layout.blue .header-brand {
+  background: #077be6;
+}
+
+.ant-layout.blue .header-brand h1 {
+  color: #fff;
+}
+
+.ant-layout.royal .ant-layout-sider {
+  background-image: linear-gradient(90deg, #141e30, #243b55);
+}
+.ant-layout.royal .header-wrapper {
+  background: #fff;
+  color: rgba(0, 0, 0, 0.65);
+}
+.ant-layout.royal .header-brand {
+  background: #233850;
+}
+
+.ant-layout.royal .header-brand h1 {
+  color: #fff;
+}
+
+.ant-layout.plum-plate .ant-layout-sider {
+  background-image: linear-gradient(135deg, #667eea, #764ba2);
+}
+.ant-layout.plum-plate .header-wrapper {
+  background: #fff;
+  color: rgba(0, 0, 0, 0.65);
+}
+.ant-layout.plum-plate .header-brand {
+  background: #7883e1;
+}
+
+.ant-layout.plum-plate .header-brand h1 {
+  color: #fff;
+}
+
+.ant-layout.night-sky .ant-layout-sider {
+  background-image: linear-gradient(0deg, #1e3c72 0, #1e3c72 1%, #2a5298);
+}
+.ant-layout.night-sky .header-wrapper {
+  background: #fff;
+  color: rgba(0, 0, 0, 0.65);
+}
+.ant-layout.night-sky .header-brand {
+  background: #2f559e;
+}
+
+.ant-layout.night-sky .header-brand h1 {
+  color: #fff;
+}
+
+.ant-layout.midnight-bloom .ant-layout-sider {
+  background: #394263;
+}
+.ant-layout.midnight-bloom .header-wrapper {
+  background: #fff;
+  color: rgba(0, 0, 0, 0.65);
+}
+.ant-layout.midnight-bloom .header-brand {
+  background: #394263;
+}
+
+.ant-layout.midnight-bloom .header-brand h1 {
+  color: #fff;
+}
+
+.ant-layout.sunny-morning .ant-layout-sider {
+  background: #f7b924;
+}
+.ant-layout.sunny-morning .header-wrapper {
+  background: #fff;
+  color: rgba(0, 0, 0, 0.65);
+}
+.ant-layout.sunny-morning .header-brand {
+  background: #f7b924;
+}
+
+.ant-layout.sunny-morning .header-brand h1 {
+  color: #fff;
+}

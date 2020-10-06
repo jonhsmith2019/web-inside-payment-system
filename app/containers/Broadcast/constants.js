@@ -1,0 +1,10 @@
+/*
+ *
+ * broadcast constants
+ *
+ */
+
+export const SOCKET_GET_BROADCAST_LIST = 'BROADCAST_LIST';
+export const SOCKET_GET_BROADCAST_DETAIL = 'BROADCAST_GET';
+export const SOCKET_SAVE_BROADCAST = 'BROADCAST_SAVE';
+export const SOCKET_DELETE_BROADCAST = 'BROADCAST_DELETE';

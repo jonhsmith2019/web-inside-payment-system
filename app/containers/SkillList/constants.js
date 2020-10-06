@@ -1,0 +1,2 @@
+export const SOCKET_GET_SKILL_LIST = 'SKILL_LIST';
+export const SOCKET_SKILL_UPDATE = 'SKILL_UPDATE';
