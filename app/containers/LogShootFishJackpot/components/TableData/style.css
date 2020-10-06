@@ -1,8 +1,0 @@
-@media only screen and (max-width: 1920px) {
-  .table-responsive.table-logshoot table {
-    width: 1920px;
-  }
-  .table-responsive.table-logshoot .ant-table-content {
-    overflow: auto;
-  }
-}

@@ -9,7 +9,7 @@ export function Dashboard() {
         <title>Dashboard</title>
       </Helmet>
       <div style={{ marginTop: '10vh' }}>
-        <Result icon={<SmileOutlined />} title="FInside 2020" />
+        <Result icon={<SmileOutlined />} title="Payment Inside" />
       </div>
     </div>
   );

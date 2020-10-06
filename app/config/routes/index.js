@@ -34,7 +34,7 @@ export const routes = {
   account: {
     list: '/account-list',
     add: '/account/add',
-    edit: '/user/edit/:id',
+    edit: '/account/:id',
   },
 };
 export default routes;

@@ -1,2 +1,0 @@
-export const SOCKET_GET_MATCH_HISTORY = 'MATCH_HISTORY';
-export const SOCKET_GET_ROOM_LIST = 'ROOM_LIST';

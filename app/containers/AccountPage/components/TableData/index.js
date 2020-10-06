@@ -1,7 +1,7 @@
-/* eslint-disable react/no-unused-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, Badge, Button } from 'antd';
+import { Link } from 'react-router-dom';
+import { Table, Badge } from 'antd';
 import './style.css';
 
 export default function TableData(props) {
@@ -23,11 +23,11 @@ export default function TableData(props) {
     },
     {
       title: 'Trạng thái',
-      dataIndex: 'enabled',
-      key: 'enabled',
-      render: enabled => (
+      dataIndex: 'status',
+      key: 'status',
+      render: status => (
         <span>
-          {enabled === 1 ? (
+          {status === 1 ? (
             <span>
               <Badge status="success" />
               Active
@@ -49,45 +49,11 @@ export default function TableData(props) {
     },
     {
       title: '',
-      dataIndex: 'action',
-      key: 'action',
-      width: '250px',
-      render: (text, record) => (
+      width: '100px',
+      align: 'center',
+      render: record => (
         <div>
-          {record.enabled === 1 ? (
-            <Button
-              type="primary"
-              danger
-              size="small"
-              style={{ width: '65px', textAlign: 'center' }}
-              onClick={() =>
-                props.onChangeUserStatus({ userId: record.id, enabled: 0 })
-              }
-            >
-              Lock
-            </Button>
-          ) : (
-            <Button
-              type="primary"
-              danger
-              size="small"
-              style={{ width: '65px', textAlign: 'center' }}
-              onClick={() =>
-                props.onChangeUserStatus({ userId: record.id, enabled: 1 })
-              }
-            >
-              UnLock
-            </Button>
-          )}
-
-          <Button
-            type="primary"
-            size="small"
-            style={{ marginLeft: '5px' }}
-            onClick={() => props.onChangePassword(record)}
-          >
-            Change password
-          </Button>
+          <Link to={`/account/${record.id}`}>Sửa</Link>
         </div>
       ),
     },
@@ -110,11 +76,7 @@ export default function TableData(props) {
 }
 
 TableData.propTypes = {
-  onChangeUserStatus: PropTypes.func,
-  onChangePassword: PropTypes.func,
   onTableChange: PropTypes.func,
   data: PropTypes.array,
-  group: PropTypes.array,
   loading: PropTypes.bool,
-  // pagination: PropTypes.object,
 };

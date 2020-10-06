@@ -3,18 +3,13 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import _get from 'lodash/get';
-import { PageHeader, Modal, Form, Button, Input, message } from 'antd';
-import { ExclamationCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { PageHeader } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { WebSocketContext } from 'containers/WebSocket';
 import TableData from './components/TableData';
 // import FilterData from './components/FilterData';
-import {
-  SOCKET_GET_ACCOUNT_LIST,
-  SOCKET_GET_GROUP_LIST,
-  SOCKET_ENABLE_USER,
-  SOCKET_SET_PASSWORD_USER,
-} from './constants';
-const { confirm } = Modal;
+import { SOCKET_GET_ACCOUNT_LIST, SOCKET_GET_GROUP_LIST } from './constants';
+// const { confirm } = Modal;
 
 const defaultFilter = {
   page: 0,
@@ -23,12 +18,12 @@ const defaultFilter = {
 
 export function AccountList() {
   const socket = useContext(WebSocketContext);
-  const [form] = Form.useForm();
+  // const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const [visible, setVisible] = useState(false);
+  // const [visible, setVisible] = useState(false);
   const [group, setDataGroup] = useState([]);
   const [data, setData] = useState({});
-  const [currentRecord, setRecord] = useState();
+  // const [currentRecord, setRecord] = useState();
   const [filter, setFilterData] = useState(defaultFilter);
 
   useEffect(() => {
@@ -62,20 +57,20 @@ export function AccountList() {
     });
   };
 
-  const updateStatus = async newData => {
-    setLoading(true);
-    await socket.emit(SOCKET_ENABLE_USER, { data: newData });
-    await socket.on(SOCKET_ENABLE_USER, res => {
-      setLoading(false);
-      const resParsed = JSON.parse(res);
-      if (resParsed.result) {
-        message.success('Cập nhật trạng thái thành công');
-        fetchData(filter);
-      } else {
-        message.error('Có lỗi xảy ra, xin vui lòng thử lại');
-      }
-    });
-  };
+  // const updateStatus = async newData => {
+  //   setLoading(true);
+  //   await socket.emit(SOCKET_ENABLE_USER, { data: newData });
+  //   await socket.on(SOCKET_ENABLE_USER, res => {
+  //     setLoading(false);
+  //     const resParsed = JSON.parse(res);
+  //     if (resParsed.result) {
+  //       message.success('Cập nhật trạng thái thành công');
+  //       fetchData(filter);
+  //     } else {
+  //       message.error('Có lỗi xảy ra, xin vui lòng thử lại');
+  //     }
+  //   });
+  // };
 
   // const onSubmitFilter = values => {
   //   setLoading(true);
@@ -98,41 +93,42 @@ export function AccountList() {
     fetchData(newFilter);
   };
 
-  const handleChangeStatus = query => {
-    confirm({
-      title: 'Confirm',
-      content: 'Bạn có muốn thay đổi trạng thái user?',
-      icon: <ExclamationCircleOutlined />,
-      onOk() {
-        updateStatus(query);
-      },
-    });
-  };
-  const handleChangePassword = record => {
-    setRecord(record);
-    setVisible(!visible);
-  };
+  // const handleChangeStatus = query => {
+  //   confirm({
+  //     title: 'Confirm',
+  //     content: 'Bạn có muốn thay đổi trạng thái user?',
+  //     icon: <ExclamationCircleOutlined />,
+  //     onOk() {
+  //       updateStatus(query);
+  //     },
+  //   });
+  // };
 
-  const handleSubmitFormChangePassword = async values => {
-    setLoading(true);
-    const req = {
-      userId: currentRecord.id,
-      password: values.password,
-    };
-    await socket.emit(SOCKET_SET_PASSWORD_USER, { data: req });
-    await socket.on(SOCKET_SET_PASSWORD_USER, res => {
-      setLoading(false);
-      const resParsed = JSON.parse(res);
-      if (resParsed.result) {
-        message.success('Cập nhật password thành công');
-        fetchData(filter);
-      } else {
-        message.error('Có lỗi xảy ra, xin vui lòng thử lại');
-      }
-    });
-    await setVisible(!visible);
-    form.resetFields();
-  };
+  // const handleChangePassword = record => {
+  //   setRecord(record);
+  //   setVisible(!visible);
+  // };
+
+  // const handleSubmitFormChangePassword = async values => {
+  //   setLoading(true);
+  //   const req = {
+  //     userId: currentRecord.id,
+  //     password: values.password,
+  //   };
+  //   await socket.emit(SOCKET_SET_PASSWORD_USER, { data: req });
+  //   await socket.on(SOCKET_SET_PASSWORD_USER, res => {
+  //     setLoading(false);
+  //     const resParsed = JSON.parse(res);
+  //     if (resParsed.result) {
+  //       message.success('Cập nhật password thành công');
+  //       fetchData(filter);
+  //     } else {
+  //       message.error('Có lỗi xảy ra, xin vui lòng thử lại');
+  //     }
+  //   });
+  //   await setVisible(!visible);
+  //   form.resetFields();
+  // };
 
   return (
     <div>
@@ -172,11 +168,11 @@ export function AccountList() {
             total: data.totalElements,
           }}
           onTableChange={handleTableChange}
-          onChangeUserStatus={handleChangeStatus}
-          onChangePassword={handleChangePassword}
+          // onChangeUserStatus={handleChangeStatus}
+          // onChangePassword={handleChangePassword}
         />
       </div>
-      <Modal
+      {/* <Modal
         title={`Thay đổi Password cho user ${currentRecord?.username}`}
         visible={visible}
         form={form}
@@ -234,7 +230,7 @@ export function AccountList() {
             </Button>
           </Form.Item>
         </Form>
-      </Modal>
+      </Modal> */}
     </div>
   );
 }

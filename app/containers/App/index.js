@@ -23,23 +23,10 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import RequiredAuthentication from 'utils/auth/RequireAuthentication';
 import Login from 'containers/LoginPage/Loadable';
 import Dashboard from 'containers/Dashboard';
-import StockConfig from 'containers/StockConfig/Loadable';
-import Broadcast from 'containers/Broadcast/Loadable';
-import MaintainList from 'containers/MaintainList/Loadable';
-import MatchHistory from 'containers/MatchHistory/Loadable';
-import UserInfo from 'containers/UserInfo/Loadable';
-import AddBroadcast from 'containers/Broadcast/AddBroadcast/Loadable';
-import EditBroadcast from 'containers/Broadcast/EditBroadcast';
-import LogShootFishJackpot from 'containers/LogShootFishJackpot/Loadable';
-import LogBossFish from 'containers/LogBossFish/Loadable';
-import LogCoin from 'containers/LogCoin/Loadable';
-import EventPromotionList from 'containers/EventPromotionList/Loadable';
-import EventJackpotConfig from 'containers/EventJackpotConfig/Loadable';
-import EventBossConfig from 'containers/EventBossConfig/Loadable';
-import SkillList from 'containers/SkillList/Loadable';
-import StatisticsSystem from 'containers/StatisticsSystem/Loadable';
+
 import AccountList from 'containers/AccountPage/Loadable';
 import AddAccount from 'containers/AccountPage/AddAccount/Loadable';
+import EditAccount from 'containers/AccountPage/EditAccount/Loadable';
 import ThemeConfig from 'components/ThemeConfig';
 import Header from 'components/Header';
 import ErrorBoundary from './ErrorBoundaries';
@@ -167,88 +154,6 @@ export function App(props) {
                 <Switch>
                   <Route
                     exact
-                    path={routes.gmtool.stockConfig}
-                    component={StockConfig}
-                  />
-                  <Route
-                    exact
-                    path={routes.gmtool.broadcastList}
-                    component={Broadcast}
-                  />
-
-                  <Route
-                    exact
-                    path={routes.gmtool.addBroadcast}
-                    component={AddBroadcast}
-                  />
-                  <Route
-                    exact
-                    path={routes.gmtool.editBroadcast}
-                    component={EditBroadcast}
-                  />
-                  <Route
-                    exact
-                    path={routes.gmtool.maintain}
-                    component={MaintainList}
-                  />
-                  <Route
-                    exact
-                    path={routes.tookkiemsoat.logShootFishJackpot}
-                    component={LogShootFishJackpot}
-                  />
-                  <Route
-                    exact
-                    path={routes.tookkiemsoat.logBoss}
-                    component={LogBossFish}
-                  />
-                  <Route
-                    exact
-                    path={routes.tookkiemsoat.logCoin}
-                    component={LogCoin}
-                  />
-                  <Route
-                    exact
-                    path={routes.tookkiemsoat.matchHistory}
-                    component={MatchHistory}
-                  />
-                  <Route
-                    exact
-                    path={routes.tookkiemsoat.userInfo}
-                    component={UserInfo}
-                  />
-
-                  <Route
-                    exact
-                    path={routes.event.promotion}
-                    component={EventPromotionList}
-                  />
-
-                  <Route
-                    exact
-                    path={routes.event.jackpot}
-                    component={EventJackpotConfig}
-                  />
-
-                  <Route
-                    exact
-                    path={routes.event.boss}
-                    component={EventBossConfig}
-                  />
-
-                  <Route
-                    exact
-                    path={routes.event.skill}
-                    component={SkillList}
-                  />
-
-                  <Route
-                    exact
-                    path={routes.doisoat.statisticsSystem}
-                    component={StatisticsSystem}
-                  />
-
-                  <Route
-                    exact
                     path={routes.account.list}
                     component={AccountList}
                   />
@@ -257,6 +162,11 @@ export function App(props) {
                     exact
                     path={routes.account.add}
                     component={AddAccount}
+                  />
+                  <Route
+                    exact
+                    path={routes.account.edit}
+                    component={EditAccount}
                   />
 
                   <Route exact path="/" component={Dashboard} />
