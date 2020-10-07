@@ -29,7 +29,8 @@ import AddAccount from 'containers/AccountPage/AddAccount/Loadable';
 import EditAccount from 'containers/AccountPage/EditAccount/Loadable';
 import AccountServiceList from 'containers/AccountService/Loadable';
 import EditAccountService from 'containers/AccountService/EditAccountService/Loadable';
-import AccountServiceInfo from 'containers/AccountServiceInfo/Loadable';
+import AccountServiceInfo from 'containers/AccountService/AccountServiceInfo/Loadable';
+import CardTransactionSession from 'containers/Card/CardTransactionSession/Loadable';
 
 import ThemeConfig from 'components/ThemeConfig';
 import Header from 'components/Header';
@@ -183,8 +184,13 @@ export function App(props) {
                   />
                   <Route
                     exact
-                    path={routes.accountServiceInfo.list}
+                    path={routes.accountService.info}
                     component={AccountServiceInfo}
+                  />
+                  <Route
+                    exact
+                    path={routes.card.transactionSession}
+                    component={CardTransactionSession}
                   />
 
                   <Route exact path="/" component={Dashboard} />

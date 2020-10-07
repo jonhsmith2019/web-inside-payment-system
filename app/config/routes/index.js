@@ -10,9 +10,11 @@ export const routes = {
     list: '/account-service-list',
     add: '/account-service/add',
     edit: '/account-service/:id',
+    info: '/account-service-info',
   },
-  accountServiceInfo: {
-    list: '/account-service-info',
+  card: {
+    transactionList: '/card-transaction-list',
+    transactionSession: '/card-transaction-session',
   },
 };
 export default routes;
