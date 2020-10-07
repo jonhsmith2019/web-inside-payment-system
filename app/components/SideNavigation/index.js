@@ -16,6 +16,7 @@ import { isBrowser } from 'react-device-detect';
 import { makeSelectLocation } from 'containers/App/selectors';
 
 import './style.css';
+const { SubMenu } = Menu;
 const { Sider } = Layout;
 export function SideNavigation({ menu, location, theme, collapsedMenu }) {
   const indexCut = location.hash.indexOf('?');
@@ -99,35 +100,32 @@ export function SideNavigation({ menu, location, theme, collapsedMenu }) {
         theme={currentTheme}
         style={{ marginTop: '24px' }}
       >
-        {menu.map(
-          item => (
-            <Menu.Item key={item.menuPath}>
-              <Link to={item.menuPath}>{item.menuName}</Link>
-            </Menu.Item>
-          ),
-          // const subMenu = _filter(menu, ['parentId', item.id]);
-          // if (item.parentId === 0 && item.enabled === 1) {
-          //   return (
-          //     <SubMenu
-          //       key={`menu_${item.id}`}
-          //       title={
-          //         <span>
-          //           <span>{item.menuName}</span>
-          //         </span>
-          //       }
-          //       className="sidebar__sub-menu"
-          //     >
-          //       {subMenu.length > 0 &&
-          //         subMenu.map(subItem => (
-          //           <Menu.Item key={subItem.menuPath}>
-          //             <Link to={subItem.menuPath}>{subItem.menuName}</Link>
-          //           </Menu.Item>
-          //         ))}
-          //     </SubMenu>
-          //   );
-          // }
-          // return <span key={item.id} />;
-        )}
+        {menu.map(item => {
+          const subMenu = _filter(menu, ['parent.id', item.id]);
+          if (!item.parent && item.enabled === 1) {
+            return (
+              <SubMenu
+                key={`menu_${item.id}`}
+                title={
+                  <span>
+                    <span>{item.menuName}</span>
+                  </span>
+                }
+                className="sidebar__sub-menu"
+              >
+                {subMenu.length > 0 &&
+                  subMenu.map(subItem => (
+                    <Menu.Item key={subItem.menuPath}>
+                      <Link to={`/${subItem.menuPath}`}>
+                        {subItem.menuName}
+                      </Link>
+                    </Menu.Item>
+                  ))}
+              </SubMenu>
+            );
+          }
+          return <span key={item.id} />;
+        })}
       </Menu>
     </Sider>
   );

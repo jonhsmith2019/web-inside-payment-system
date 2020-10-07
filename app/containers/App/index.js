@@ -28,6 +28,8 @@ import AccountList from 'containers/AccountPage/Loadable';
 import AddAccount from 'containers/AccountPage/AddAccount/Loadable';
 import EditAccount from 'containers/AccountPage/EditAccount/Loadable';
 import AccountServiceList from 'containers/AccountService/Loadable';
+import EditAccountService from 'containers/AccountService/EditAccountService/Loadable';
+import AccountServiceInfo from 'containers/AccountServiceInfo/Loadable';
 
 import ThemeConfig from 'components/ThemeConfig';
 import Header from 'components/Header';
@@ -174,6 +176,16 @@ export function App(props) {
                     path={routes.accountService.list}
                     component={AccountServiceList}
                   />
+                  <Route
+                    exact
+                    path={routes.accountService.edit}
+                    component={EditAccountService}
+                  />
+                  <Route
+                    exact
+                    path={routes.accountServiceInfo.list}
+                    component={AccountServiceInfo}
+                  />
 
                   <Route exact path="/" component={Dashboard} />
                   <Route component={NotFoundPage} />
@@ -192,7 +204,7 @@ export function App(props) {
 
 App.propTypes = {
   getMenu: PropTypes.func,
-  menu: PropTypes.object,
+  menu: PropTypes.array,
 };
 
 const mapStateToProps = createStructuredSelector({

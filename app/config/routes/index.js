@@ -11,5 +11,8 @@ export const routes = {
     add: '/account-service/add',
     edit: '/account-service/:id',
   },
+  accountServiceInfo: {
+    list: '/account-service-info',
+  },
 };
 export default routes;

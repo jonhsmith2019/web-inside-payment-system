@@ -27,11 +27,11 @@ export function AccountList() {
   const [filter, setFilterData] = useState(defaultFilter);
 
   useEffect(() => {
-    fetchGroup();
-    fetchData(filter);
+    getGroups();
+    getData(filter);
   }, []);
 
-  const fetchGroup = async () => {
+  const getGroups = async () => {
     await socket.emit(SOCKET_GET_GROUP_LIST, { data: {} });
     await socket.on(SOCKET_GET_GROUP_LIST, res => {
       const resParsed = JSON.parse(res);
@@ -41,7 +41,7 @@ export function AccountList() {
     });
   };
 
-  const fetchData = async fiterData => {
+  const getData = async fiterData => {
     setLoading(true);
 
     await socket.emit(SOCKET_GET_ACCOUNT_LIST, { data: fiterData });
@@ -49,7 +49,7 @@ export function AccountList() {
       setLoading(false);
       const resParsed = JSON.parse(res);
       if (resParsed.result) {
-        console.log('SOCKET_GET_ACCOUNT_LIST', resParsed.data);
+        // console.log('SOCKET_GET_ACCOUNT_LIST', resParsed.data);
         setData(resParsed.data);
       } else {
         setData([]);
@@ -90,7 +90,7 @@ export function AccountList() {
     newFilter.page = pagination.current - 1;
     newFilter.size = pagination.pageSize;
     setFilterData(newFilter);
-    fetchData(newFilter);
+    getData(newFilter);
   };
 
   // const handleChangeStatus = query => {

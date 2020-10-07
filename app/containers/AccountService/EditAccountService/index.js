@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable prefer-promise-reject-errors */
 import React, { useState, useEffect, useContext } from 'react';
 import { Helmet } from 'react-helmet';
@@ -8,7 +9,7 @@ import {
   Button,
   Input,
   Card,
-  // Switch,
+  Switch,
   Select,
   message,
 } from 'antd';
@@ -16,9 +17,9 @@ import FormWrapper from 'components/FormWrapper';
 import { WebSocketContext } from 'containers/WebSocket';
 import routes from 'config/routes';
 import {
-  SOCKET_ADD_ACCOUNT,
-  SOCKET_GET_GROUP_LIST,
-  SOCKET_GET_ACCOUNT,
+  SOCKET_SAVE_ACCOUNT_SERVICE,
+  SOCKET_GET_ACCOUNT_LIST,
+  SOCKET_GET_ACCOUNT_SERVICE_DETAIL,
 } from '../constants';
 
 const tailLayout = {
@@ -29,59 +30,74 @@ export function EditAccountService(props) {
   const socket = useContext(WebSocketContext);
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const [group, setDataGroup] = useState([]);
+  const [accounts, setDataAccounts] = useState([]);
   useEffect(() => {
     const {
       match: {
         params: { id },
       },
     } = props;
+    getAccounts({
+      page: 0,
+      size: 100,
+    });
 
-    fetchData({ id });
-    fetchGroup({});
+    getData({ id });
   }, []);
 
-  const fetchData = async fiterData => {
+  const getAccounts = async fiterData => {
     setLoading(true);
 
-    await socket.emit(SOCKET_GET_ACCOUNT, { data: fiterData });
-    await socket.on(SOCKET_GET_ACCOUNT, res => {
+    await socket.emit(SOCKET_GET_ACCOUNT_LIST, { data: fiterData });
+    await socket.on(SOCKET_GET_ACCOUNT_LIST, res => {
       setLoading(false);
       const resParsed = JSON.parse(res);
       if (resParsed.result) {
-        console.log('SOCKET_GET_ACCOUNT', resParsed.data);
-        form.setFieldsValue({
-          ...resParsed.data,
-          groupId: resParsed.data?.group?.id,
-        });
+        setDataAccounts(resParsed.data?.content);
+      } else {
+        setDataAccounts([]);
       }
     });
   };
 
-  const fetchGroup = async () => {
-    await socket.emit(SOCKET_GET_GROUP_LIST, { data: {} });
-    await socket.on(SOCKET_GET_GROUP_LIST, res => {
+  const getData = async fiterData => {
+    setLoading(true);
+
+    await socket.emit(SOCKET_GET_ACCOUNT_SERVICE_DETAIL, { data: fiterData });
+    await socket.on(SOCKET_GET_ACCOUNT_SERVICE_DETAIL, res => {
+      setLoading(false);
       const resParsed = JSON.parse(res);
       if (resParsed.result) {
-        setDataGroup(resParsed.data);
+        // console.log('SOCKET_GET_ACCOUNT_SERVICE_DETAIL', resParsed.data);
+        form.setFieldsValue({
+          ...resParsed.data,
+          accountId: resParsed.data?.account.id,
+          serviceId: resParsed.data?.service?.id,
+        });
       }
     });
   };
 
   const handleSumitForm = async values => {
     setLoading(true);
-    await socket.emit(SOCKET_ADD_ACCOUNT, { data: values });
-    await socket.off(SOCKET_ADD_ACCOUNT).on(SOCKET_ADD_ACCOUNT, res => {
-      setLoading(false);
-      const resParsed = JSON.parse(res);
-      if (resParsed.result) {
-        message.success(resParsed.message);
-        // eslint-disable-next-line react/prop-types
-        props.history.push(routes.account.list);
-      } else {
-        message.error(resParsed.message);
-      }
+    await socket.emit(SOCKET_SAVE_ACCOUNT_SERVICE, {
+      data: { ...values, status: values.status === false ? 0 : 1 },
     });
+    await socket
+      .off(SOCKET_SAVE_ACCOUNT_SERVICE)
+      .on(SOCKET_SAVE_ACCOUNT_SERVICE, res => {
+        setLoading(false);
+        const resParsed = JSON.parse(res);
+        if (resParsed.result) {
+          message.success(resParsed.message);
+
+          props.history.push(
+            `${routes.accountService.list}?accountId=${values.accountId}`,
+          );
+        } else {
+          message.error(resParsed.message);
+        }
+      });
   };
 
   return (
@@ -101,7 +117,7 @@ export function EditAccountService(props) {
         <FormWrapper loading={loading}>
           <Form
             form={form}
-            name="edit-account"
+            name="edit-account-service"
             onFinish={handleSumitForm}
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 8 }}
@@ -117,13 +133,22 @@ export function EditAccountService(props) {
               <Input type="hidden" />
             </Form.Item>
             <Form.Item
-              name="username"
-              label="Username"
+              name="serviceId"
               rules={[
                 {
                   required: true,
-                  message: 'Vui lòng nhập username',
-                  min: 3,
+                },
+              ]}
+            >
+              <Input type="hidden" />
+            </Form.Item>
+            <Form.Item
+              name="secret"
+              label="Secret"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui lòng nhập secret',
                 },
               ]}
             >
@@ -131,44 +156,67 @@ export function EditAccountService(props) {
             </Form.Item>
 
             <Form.Item
-              name="app"
-              label="App"
+              name="callbackUrl"
+              label="Callback Url"
               rules={[
                 {
                   required: true,
-                  message: 'Vui lòng nhập app',
-                  min: 3,
+                  message: 'Vui lòng nhập callback url',
                 },
               ]}
             >
               <Input />
             </Form.Item>
             <Form.Item
-              name="groupId"
-              label="Nhóm"
+              name="whiteListIp"
+              label="WhiteList Ip"
               rules={[
                 {
                   required: true,
-                  message: 'Vui lòng chọn group!',
+                  message: 'Vui lòng nhập whiteList ip',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="sharingRate"
+              label="Sharing Rate"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui lòng nhập sharing rate',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="accountId"
+              label="Account"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui lòng chọn account!',
                 },
               ]}
             >
               <Select
-                placeholder="Chọn nhóm"
+                placeholder="Chọn Account"
                 allowClear
                 className="xs-width-100"
                 style={{ width: '100%' }}
               >
-                {group.map(item => (
+                {accounts.map(item => (
                   <Select.Option value={item.id} key={item.id}>
-                    {item.groupName}
+                    {item.username}
                   </Select.Option>
                 ))}
               </Select>
             </Form.Item>
-            {/* <Form.Item name="status" label="Active" valuePropName="checked">
+            <Form.Item name="status" label="Active" valuePropName="checked">
               <Switch />
-            </Form.Item> */}
+            </Form.Item>
             <Form.Item {...tailLayout}>
               <Button type="primary" htmlType="submit">
                 Lưu

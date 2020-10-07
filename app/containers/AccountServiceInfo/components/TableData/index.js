@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { Table, Badge, Popover } from 'antd';
 import './style.css';
 
@@ -87,16 +86,6 @@ export default function TableData(props) {
             </span>
           )}
         </span>
-      ),
-    },
-    {
-      title: '',
-      width: '100px',
-      align: 'center',
-      render: record => (
-        <div>
-          <Link to={`/account-service/${record.id}`}>Sửa</Link>
-        </div>
       ),
     },
   ];
