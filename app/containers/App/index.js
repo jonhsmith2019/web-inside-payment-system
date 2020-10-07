@@ -27,6 +27,8 @@ import Dashboard from 'containers/Dashboard';
 import AccountList from 'containers/AccountPage/Loadable';
 import AddAccount from 'containers/AccountPage/AddAccount/Loadable';
 import EditAccount from 'containers/AccountPage/EditAccount/Loadable';
+import AccountServiceList from 'containers/AccountService/Loadable';
+
 import ThemeConfig from 'components/ThemeConfig';
 import Header from 'components/Header';
 import ErrorBoundary from './ErrorBoundaries';
@@ -157,7 +159,6 @@ export function App(props) {
                     path={routes.account.list}
                     component={AccountList}
                   />
-
                   <Route
                     exact
                     path={routes.account.add}
@@ -167,6 +168,11 @@ export function App(props) {
                     exact
                     path={routes.account.edit}
                     component={EditAccount}
+                  />
+                  <Route
+                    exact
+                    path={routes.accountService.list}
+                    component={AccountServiceList}
                   />
 
                   <Route exact path="/" component={Dashboard} />

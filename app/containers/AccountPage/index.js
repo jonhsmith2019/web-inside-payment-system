@@ -140,7 +140,7 @@ export function AccountList() {
         <PageHeader
           style={{ paddingLeft: '0', paddingRight: '0' }}
           className="site-page-header"
-          title="User List"
+          title="Account List"
           extra={[
             <Link
               key="1"

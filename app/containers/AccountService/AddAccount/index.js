@@ -8,55 +8,27 @@ import {
   Button,
   Input,
   Card,
-  // Switch,
+  Switch,
   Select,
   message,
 } from 'antd';
 import FormWrapper from 'components/FormWrapper';
 import { WebSocketContext } from 'containers/WebSocket';
 import routes from 'config/routes';
-import {
-  SOCKET_ADD_ACCOUNT,
-  SOCKET_GET_GROUP_LIST,
-  SOCKET_GET_ACCOUNT,
-} from '../constants';
+import { SOCKET_ADD_ACCOUNT, SOCKET_GET_GROUP_LIST } from '../constants';
 
 const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-export function EditAccount(props) {
+export function AddAccount(props) {
   const socket = useContext(WebSocketContext);
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [group, setDataGroup] = useState([]);
   useEffect(() => {
-    const {
-      match: {
-        params: { id },
-      },
-    } = props;
-
-    fetchData({ id });
     fetchGroup({});
   }, []);
-
-  const fetchData = async fiterData => {
-    setLoading(true);
-
-    await socket.emit(SOCKET_GET_ACCOUNT, { data: fiterData });
-    await socket.on(SOCKET_GET_ACCOUNT, res => {
-      setLoading(false);
-      const resParsed = JSON.parse(res);
-      if (resParsed.result) {
-        console.log('SOCKET_GET_ACCOUNT', resParsed.data);
-        form.setFieldsValue({
-          ...resParsed.data,
-          groupId: resParsed.data?.group?.id,
-        });
-      }
-    });
-  };
 
   const fetchGroup = async () => {
     await socket.emit(SOCKET_GET_GROUP_LIST, { data: {} });
@@ -70,12 +42,21 @@ export function EditAccount(props) {
 
   const handleSumitForm = async values => {
     setLoading(true);
-    await socket.emit(SOCKET_ADD_ACCOUNT, { data: values });
-    await socket.off(SOCKET_ADD_ACCOUNT).on(SOCKET_ADD_ACCOUNT, res => {
+    const { username, password, app, groupId, enabled } = values;
+    const user = {
+      username,
+      password,
+      app,
+      groupId,
+      enabled: enabled ? 1 : 0,
+    };
+
+    await socket.emit(SOCKET_ADD_ACCOUNT, { data: user });
+    await socket.on(SOCKET_ADD_ACCOUNT, res => {
       setLoading(false);
       const resParsed = JSON.parse(res);
       if (resParsed.result) {
-        message.success(resParsed.message);
+        message.success('Thêm account thành công');
         // eslint-disable-next-line react/prop-types
         props.history.push(routes.account.list);
       } else {
@@ -87,35 +68,25 @@ export function EditAccount(props) {
   return (
     <div>
       <Helmet>
-        <title>Chỉnh sửa Account</title>
+        <title>Thêm mới Account</title>
       </Helmet>
       <div className="page-header-wrapper">
         <PageHeader
           style={{ paddingLeft: '0', paddingRight: '0' }}
           onBack={() => window.history.back()}
           className="site-page-header"
-          title="Chỉnh sửa Account"
+          title="Thêm mới Account"
         />
       </div>
       <Card>
         <FormWrapper loading={loading}>
           <Form
             form={form}
-            name="edit-account"
+            name="add-account"
             onFinish={handleSumitForm}
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 8 }}
           >
-            <Form.Item
-              name="id"
-              rules={[
-                {
-                  required: true,
-                },
-              ]}
-            >
-              <Input type="hidden" />
-            </Form.Item>
             <Form.Item
               name="username"
               label="Username"
@@ -129,7 +100,41 @@ export function EditAccount(props) {
             >
               <Input />
             </Form.Item>
-
+            <Form.Item
+              name="password"
+              label="Password"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui lòng nhập password',
+                  min: 3,
+                },
+              ]}
+            >
+              <Input.Password />
+            </Form.Item>
+            <Form.Item
+              name="confirm"
+              label="Confirm Password"
+              dependencies={['password']}
+              hasFeedback
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui lòng xác nhận password!',
+                },
+                ({ getFieldValue }) => ({
+                  validator(rule, value) {
+                    if (!value || getFieldValue('password') === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject('Xác nhận password không chính xác!');
+                  },
+                }),
+              ]}
+            >
+              <Input.Password />
+            </Form.Item>
             <Form.Item
               name="app"
               label="App"
@@ -166,15 +171,15 @@ export function EditAccount(props) {
                 ))}
               </Select>
             </Form.Item>
-            {/* <Form.Item name="status" label="Active" valuePropName="checked">
+            <Form.Item name="enabled" label="Active" valuePropName="checked">
               <Switch />
-            </Form.Item> */}
+            </Form.Item>
             <Form.Item {...tailLayout}>
               <Button type="primary" htmlType="submit">
                 Lưu
               </Button>
               <Link
-                to={routes.account.list}
+                to={routes.accountService.list}
                 className="ant-btn ant-btn-link ant-btn-dangerous"
               >
                 Quay lại
@@ -187,4 +192,4 @@ export function EditAccount(props) {
   );
 }
 
-export default EditAccount;
+export default AddAccount;

@@ -179,7 +179,7 @@ export function AddAccount(props) {
                 Lưu
               </Button>
               <Link
-                to={routes.management.user.list}
+                to={routes.account.list}
                 className="ant-btn ant-btn-link ant-btn-dangerous"
               >
                 Quay lại

@@ -25,7 +25,7 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-export function EditAccount(props) {
+export function EditAccountService(props) {
   const socket = useContext(WebSocketContext);
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
@@ -174,7 +174,7 @@ export function EditAccount(props) {
                 Lưu
               </Button>
               <Link
-                to={routes.account.list}
+                to={routes.accountService.list}
                 className="ant-btn ant-btn-link ant-btn-dangerous"
               >
                 Quay lại
@@ -187,4 +187,4 @@ export function EditAccount(props) {
   );
 }
 
-export default EditAccount;
+export default EditAccountService;
