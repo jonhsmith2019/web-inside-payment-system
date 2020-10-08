@@ -64,7 +64,13 @@ export function AddAccount(props) {
       }
     });
   };
-
+  const handleFormChange = changedFields => {
+    if (changedFields?.username) {
+      form.setFieldsValue({
+        username: changedFields.username.replace(/\s/g, ''),
+      });
+    }
+  };
   return (
     <div>
       <Helmet>
@@ -83,9 +89,12 @@ export function AddAccount(props) {
           <Form
             form={form}
             name="add-account"
-            onFinish={handleSumitForm}
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 8 }}
+            onFinish={handleSumitForm}
+            onValuesChange={changedFields => {
+              handleFormChange(changedFields);
+            }}
           >
             <Form.Item
               name="username"

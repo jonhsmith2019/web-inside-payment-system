@@ -8,7 +8,7 @@ import {
   Button,
   Input,
   Card,
-  // Switch,
+  Switch,
   Select,
   message,
 } from 'antd';
@@ -28,6 +28,7 @@ const tailLayout = {
 export function EditAccount(props) {
   const socket = useContext(WebSocketContext);
   const [form] = Form.useForm();
+  const [isValidatePassword, setValidatePassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [group, setDataGroup] = useState([]);
   useEffect(() => {
@@ -70,7 +71,14 @@ export function EditAccount(props) {
 
   const handleSumitForm = async values => {
     setLoading(true);
-    await socket.emit(SOCKET_ADD_ACCOUNT, { data: values });
+    const userUpdated = values;
+    if (!values.password) {
+      delete userUpdated.password;
+      delete userUpdated.confirm;
+    }
+    await socket.emit(SOCKET_ADD_ACCOUNT, {
+      data: { ...userUpdated, status: userUpdated.status === false ? 0 : 1 },
+    });
     await socket.off(SOCKET_ADD_ACCOUNT).on(SOCKET_ADD_ACCOUNT, res => {
       setLoading(false);
       const resParsed = JSON.parse(res);
@@ -84,6 +92,36 @@ export function EditAccount(props) {
     });
   };
 
+  const handleFormChange = changedFields => {
+    // chi check confirm pass neu pass khac empty
+    const newPassword = changedFields?.password?.replace(/\s/g, '');
+    if (newPassword && newPassword !== '') {
+      setValidatePassword(true);
+      form.validateFields(['confirm']);
+      form.setFieldsValue({
+        password: newPassword,
+      });
+    } else if (newPassword === '') {
+      setValidatePassword(false);
+      form.resetFields(['confirm']);
+      form.setFieldsValue({
+        password: newPassword,
+      });
+    }
+    // khong check neu pass empty;
+    const newConfirmPassword = changedFields?.confirm?.replace(/\s/g, '');
+    const password = form.getFieldValue(['password']);
+    if (newConfirmPassword !== '' && (!password || password === '')) {
+      setValidatePassword(false);
+      form.resetFields(['confirm']);
+    }
+    // khong dc phep space
+    if (changedFields?.username) {
+      form.setFieldsValue({
+        username: changedFields.username.replace(/\s/g, ''),
+      });
+    }
+  };
   return (
     <div>
       <Helmet>
@@ -102,9 +140,12 @@ export function EditAccount(props) {
           <Form
             form={form}
             name="edit-account"
-            onFinish={handleSumitForm}
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 8 }}
+            onFinish={handleSumitForm}
+            onValuesChange={changedFields => {
+              handleFormChange(changedFields);
+            }}
           >
             <Form.Item
               name="id"
@@ -129,7 +170,41 @@ export function EditAccount(props) {
             >
               <Input />
             </Form.Item>
-
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[
+                {
+                  min: 6,
+                  message: 'Vui lòng nhập password tối thiểu 6 kí tự!',
+                },
+              ]}
+            >
+              <Input.Password />
+            </Form.Item>
+            <Form.Item
+              name="confirm"
+              label="Confirm Password"
+              dependencies={['password']}
+              hasFeedback
+              rules={[
+                {
+                  required: isValidatePassword,
+                  message: 'Vui lòng xác nhận password!',
+                },
+                ({ getFieldValue }) => ({
+                  validator(rule, value) {
+                    if (!value || getFieldValue('password') === value) {
+                      return Promise.resolve();
+                    }
+                    // eslint-disable-next-line prefer-promise-reject-errors
+                    return Promise.reject('Password không chính xác!');
+                  },
+                }),
+              ]}
+            >
+              <Input.Password />
+            </Form.Item>
             <Form.Item
               name="app"
               label="App"
@@ -166,9 +241,9 @@ export function EditAccount(props) {
                 ))}
               </Select>
             </Form.Item>
-            {/* <Form.Item name="status" label="Active" valuePropName="checked">
+            <Form.Item name="status" label="Active" valuePropName="checked">
               <Switch />
-            </Form.Item> */}
+            </Form.Item>
             <Form.Item {...tailLayout}>
               <Button type="primary" htmlType="submit">
                 Lưu

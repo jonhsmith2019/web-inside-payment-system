@@ -35,8 +35,9 @@ export default function FilterData(props) {
       >
         <Form.Item name="accountId">
           <Select
-            placeholder="Chọn Account"
             allowClear
+            showSearch
+            placeholder="Chọn Account"
             className="xs-width-100"
             style={{ width: 200 }}
           >

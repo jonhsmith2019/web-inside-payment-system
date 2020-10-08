@@ -1,4 +1,3 @@
-/* eslint-disable no-unneeded-ternary */
 /* eslint-disable react/prop-types */
 /* eslint-disable prefer-promise-reject-errors */
 import React, { useState, useEffect, useContext } from 'react';
@@ -21,32 +20,24 @@ import {
   SOCKET_SAVE_ACCOUNT_SERVICE,
   SOCKET_GET_ACCOUNT_LIST,
   SOCKET_GET_SERVICES_LIST,
-  SOCKET_GET_ACCOUNT_SERVICE_DETAIL,
 } from '../constants';
 
 const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-export function EditAccountService(props) {
+export function AddAccountService(props) {
   const socket = useContext(WebSocketContext);
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [accounts, setDataAccounts] = useState([]);
   const [services, setDataServices] = useState([]);
   useEffect(() => {
-    const {
-      match: {
-        params: { id },
-      },
-    } = props;
     getAccounts({
       page: 0,
       size: 100,
     });
     getServices({});
-
-    getData({ id });
   }, []);
 
   const getAccounts = async fiterData => {
@@ -77,25 +68,6 @@ export function EditAccountService(props) {
     });
   };
 
-  const getData = async fiterData => {
-    setLoading(true);
-
-    await socket.emit(SOCKET_GET_ACCOUNT_SERVICE_DETAIL, { data: fiterData });
-    await socket.on(SOCKET_GET_ACCOUNT_SERVICE_DETAIL, res => {
-      setLoading(false);
-      const resParsed = JSON.parse(res);
-      if (resParsed.result) {
-        // console.log('SOCKET_GET_ACCOUNT_SERVICE_DETAIL', resParsed.data);
-        form.setFieldsValue({
-          ...resParsed.data,
-          status: resParsed.data?.status === 1 ? true : false,
-          accountId: resParsed.data?.account.id,
-          serviceId: resParsed.data?.service?.id,
-        });
-      }
-    });
-  };
-
   const handleSumitForm = async values => {
     setLoading(true);
     await socket.emit(SOCKET_SAVE_ACCOUNT_SERVICE, {
@@ -117,6 +89,7 @@ export function EditAccountService(props) {
         }
       });
   };
+
   const handleFormChange = changedFields => {
     if (changedFields?.secret) {
       form.setFieldsValue({
@@ -124,24 +97,25 @@ export function EditAccountService(props) {
       });
     }
   };
+
   return (
     <div>
       <Helmet>
-        <title>Sửa Account Service</title>
+        <title>Thêm Account Service</title>
       </Helmet>
       <div className="page-header-wrapper">
         <PageHeader
           style={{ paddingLeft: '0', paddingRight: '0' }}
           onBack={() => window.history.back()}
           className="site-page-header"
-          title="Sửa Account Service"
+          title="Thêm Account Service"
         />
       </div>
       <Card>
         <FormWrapper loading={loading}>
           <Form
             form={form}
-            name="edit-account-service"
+            name="add-account-service"
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 8 }}
             onFinish={handleSumitForm}
@@ -149,17 +123,6 @@ export function EditAccountService(props) {
               handleFormChange(changedFields);
             }}
           >
-            <Form.Item
-              name="id"
-              style={{ display: 'none' }}
-              rules={[
-                {
-                  required: true,
-                },
-              ]}
-            >
-              <Input type="hidden" />
-            </Form.Item>
             <Form.Item
               name="secret"
               label="Secret"
@@ -258,30 +221,16 @@ export function EditAccountService(props) {
             <Form.Item name="status" label="Active" valuePropName="checked">
               <Switch />
             </Form.Item>
-            <Form.Item
-              {...tailLayout}
-              shouldUpdate={(prevValues, curValues) =>
-                prevValues.serviceId !== curValues.serviceId
-              }
-            >
-              {({ getFieldValue }) => {
-                const accountId = getFieldValue('accountId');
-                return (
-                  <>
-                    <Button type="primary" htmlType="submit">
-                      Lưu
-                    </Button>
-                    <Link
-                      to={`${
-                        routes.accountService.list
-                      }?accountId=${accountId}`}
-                      className="ant-btn ant-btn-link ant-btn-dangerous"
-                    >
-                      Quay lại
-                    </Link>
-                  </>
-                );
-              }}
+            <Form.Item {...tailLayout}>
+              <Button type="primary" htmlType="submit">
+                Lưu
+              </Button>
+              <Link
+                to={`${routes.accountService.list}`}
+                className="ant-btn ant-btn-link ant-btn-dangerous"
+              >
+                Quay lại
+              </Link>
             </Form.Item>
           </Form>
         </FormWrapper>
@@ -290,4 +239,4 @@ export function EditAccountService(props) {
   );
 }
 
-export default EditAccountService;
+export default AddAccountService;

@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Helmet } from 'react-helmet';
-import { PageHeader } from 'antd';
+import { Link } from 'react-router-dom';
+import { PageHeader, Row, Col } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { WebSocketContext } from 'containers/WebSocket';
 import TableData from './components/TableData';
 import FilterData from './components/FilterData';
@@ -85,11 +87,26 @@ export function AccountServiceList(props) {
       </div>
 
       <div style={{ marginTop: '20px' }}>
-        <FilterData
-          {...props}
-          accounts={accounts}
-          onSubmitFilter={handleSubmitFilter}
-        />
+        <Row>
+          <Col xs={24} md={12} xl={18}>
+            <FilterData
+              {...props}
+              accounts={accounts}
+              onSubmitFilter={handleSubmitFilter}
+            />
+          </Col>
+          <Col xs={24} md={12} xl={6}>
+            <div style={{ textAlign: 'right' }}>
+              <Link
+                key="1"
+                to="/account-service/add"
+                className="ant-btn ant-btn-primary ant-btn-background-ghost"
+              >
+                <PlusOutlined style={{ verticalAlign: '1px' }} /> Tạo mới
+              </Link>
+            </div>
+          </Col>
+        </Row>
       </div>
 
       <div style={{ margin: '20px auto' }}>

@@ -29,6 +29,7 @@ import AddAccount from 'containers/AccountPage/AddAccount/Loadable';
 import EditAccount from 'containers/AccountPage/EditAccount/Loadable';
 import AccountServiceList from 'containers/AccountService/Loadable';
 import EditAccountService from 'containers/AccountService/EditAccountService/Loadable';
+import AddAccountService from 'containers/AccountService/AddAccountService/Loadable';
 import AccountServiceInfo from 'containers/AccountService/AccountServiceInfo/Loadable';
 import CardTransactionSession from 'containers/Card/CardTransactionSession/Loadable';
 
@@ -176,6 +177,11 @@ export function App(props) {
                     exact
                     path={routes.accountService.list}
                     component={AccountServiceList}
+                  />
+                  <Route
+                    exact
+                    path={routes.accountService.add}
+                    component={AddAccountService}
                   />
                   <Route
                     exact
