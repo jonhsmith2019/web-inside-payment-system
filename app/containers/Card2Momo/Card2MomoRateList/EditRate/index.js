@@ -73,21 +73,18 @@ export function EditCard2MomoRate(props) {
 
   const handleSumitForm = async values => {
     setLoading(true);
+
     await socket.emit(SOCKET_SAVE_CARD2MOMO_RATE, {
-      ...values,
-      status: values.status ? 1 : 0,
+      data: { ...values, status: values.status === false ? 0 : 1 },
     });
-    console.log({
-      ...values,
-      status: values.status ? 1 : 0,
-    });
+
     await socket
       .off(SOCKET_SAVE_CARD2MOMO_RATE)
       .on(SOCKET_SAVE_CARD2MOMO_RATE, res => {
         setLoading(false);
         const resParsed = JSON.parse(res);
         if (resParsed.result) {
-          message.success('Sua rate thành công');
+          message.success('Sửa rate thành công');
           // eslint-disable-next-line react/prop-types
           props.history.push(routes.card2momo.rateList);
         } else {
@@ -129,7 +126,16 @@ export function EditCard2MomoRate(props) {
             >
               <Input type="hidden" />
             </Form.Item>
-            <Form.Item name="telcoId" label="Telco">
+            <Form.Item
+              name="telcoId"
+              label="Telco"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui lòng chọn telco',
+                },
+              ]}
+            >
               <Select
                 placeholder="Chọn Telco"
                 allowClear

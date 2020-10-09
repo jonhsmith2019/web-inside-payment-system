@@ -85,7 +85,16 @@ export function AddCard2MomoRate(props) {
             wrapperCol={{ span: 8 }}
             onFinish={handleSumitForm}
           >
-            <Form.Item name="telcoId" label="Telco">
+            <Form.Item
+              name="telcoId"
+              label="Telco"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui lòng chọn telco',
+                },
+              ]}
+            >
               <Select
                 placeholder="Chọn Telco"
                 allowClear
