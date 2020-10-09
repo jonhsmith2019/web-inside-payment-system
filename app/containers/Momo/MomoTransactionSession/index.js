@@ -7,18 +7,18 @@ import { WebSocketContext } from 'containers/WebSocket';
 import TableData from './components/TableData';
 import FilterData from './components/FilterData';
 import {
-  SOCKET_GET_CARD_TRANSACTION_SESSION,
-  EVENT_SOCKET_GET_TELCO,
+  SOCKET_GET_MOMO_TRANSACTION_SESSION,
+  SOCKET_GET_ACCOUNT_LIST,
 } from './constants';
 const dateFormat = 'DD/MM/YYYY HH:mm:ss';
 
 const defaultFilter = {
-  telcoId: null,
+  accountId: null,
   keyword: '',
   // fromDate: '13/09/2020 00:00:00',
   // toDate: '13/12/2020 23:59:59',
   fromDate: moment()
-    .subtract(7, 'd')
+    .subtract(117, 'd')
     .startOf('day')
     .format(dateFormat),
   toDate: moment()
@@ -28,29 +28,32 @@ const defaultFilter = {
   size: 20,
 };
 
-export function CardTransactionSession() {
+export function MomoTransactionSession() {
   const socket = useContext(WebSocketContext);
   const [loading, setLoading] = useState(false);
   const [filter, setFilterData] = useState(defaultFilter);
   const [data, setData] = useState({});
-  const [telco, setDataTelco] = useState([]);
+  const [accounts, setDataAccounts] = useState([]);
 
   useEffect(() => {
-    getTelco({});
+    getAccounts({
+      page: 0,
+      size: 100,
+    });
     getData(filter);
   }, []);
 
-  const getTelco = async fiterData => {
+  const getAccounts = async fiterData => {
     setLoading(true);
 
-    await socket.emit(EVENT_SOCKET_GET_TELCO, { data: fiterData });
-    await socket.on(EVENT_SOCKET_GET_TELCO, res => {
+    await socket.emit(SOCKET_GET_ACCOUNT_LIST, { data: fiterData });
+    await socket.on(SOCKET_GET_ACCOUNT_LIST, res => {
       setLoading(false);
       const resParsed = JSON.parse(res);
       if (resParsed.result) {
-        setDataTelco(resParsed.data);
+        setDataAccounts(resParsed.data?.content);
       } else {
-        setDataTelco([]);
+        setDataAccounts([]);
       }
     });
   };
@@ -58,14 +61,14 @@ export function CardTransactionSession() {
   const getData = async fiterData => {
     setLoading(true);
 
-    await socket.emit(SOCKET_GET_CARD_TRANSACTION_SESSION, { data: fiterData });
+    await socket.emit(SOCKET_GET_MOMO_TRANSACTION_SESSION, { data: fiterData });
     await socket
-      .off(SOCKET_GET_CARD_TRANSACTION_SESSION)
-      .on(SOCKET_GET_CARD_TRANSACTION_SESSION, res => {
+      .off(SOCKET_GET_MOMO_TRANSACTION_SESSION)
+      .on(SOCKET_GET_MOMO_TRANSACTION_SESSION, res => {
         setLoading(false);
         const resParsed = JSON.parse(res);
         if (resParsed.result) {
-          console.log('SOCKET_GET_CARD_TRANSACTION_SESSION', resParsed.data);
+          console.log('SOCKET_GET_MOMO_TRANSACTION_SESSION', resParsed.data);
           setData(resParsed.data || []);
         } else {
           setData([]);
@@ -94,26 +97,26 @@ export function CardTransactionSession() {
         ? values.dateRange[1].endOf('day').format(dateFormat)
         : null,
     };
-    // console.log('query:', newFilter);
+    console.log('query:', newFilter);
     getData(newFilter);
   };
 
   return (
     <div>
       <Helmet>
-        <title>Card Transaction Session</title>
+        <title>Momo Transaction Session</title>
       </Helmet>
 
       <div className="page-header-wrapper">
         <PageHeader
           style={{ paddingLeft: '0', paddingRight: '0' }}
           className="site-page-header"
-          title="Card Transaction Session"
+          title="Momo Transaction Session"
         />
       </div>
 
       <div style={{ marginTop: '20px' }}>
-        <FilterData telco={telco} onSubmitFilter={handleSubmitFilter} />
+        <FilterData accounts={accounts} onSubmitFilter={handleSubmitFilter} />
       </div>
 
       <div style={{ margin: '20px auto' }}>
@@ -132,4 +135,4 @@ export function CardTransactionSession() {
   );
 }
 
-export default CardTransactionSession;
+export default MomoTransactionSession;

@@ -7,13 +7,14 @@ import { WebSocketContext } from 'containers/WebSocket';
 import TableData from './components/TableData';
 import FilterData from './components/FilterData';
 import {
-  SOCKET_GET_CARD_TRANSACTION_SESSION,
+  SOCKET_GET_CARD_TRANSACTION_LIST,
   EVENT_SOCKET_GET_TELCO,
 } from './constants';
 const dateFormat = 'DD/MM/YYYY HH:mm:ss';
 
 const defaultFilter = {
-  telcoId: null,
+  telcoId: 27,
+  accountId: 1,
   keyword: '',
   // fromDate: '13/09/2020 00:00:00',
   // toDate: '13/12/2020 23:59:59',
@@ -28,7 +29,7 @@ const defaultFilter = {
   size: 20,
 };
 
-export function CardTransactionSession() {
+export function CardTransactionList() {
   const socket = useContext(WebSocketContext);
   const [loading, setLoading] = useState(false);
   const [filter, setFilterData] = useState(defaultFilter);
@@ -58,14 +59,14 @@ export function CardTransactionSession() {
   const getData = async fiterData => {
     setLoading(true);
 
-    await socket.emit(SOCKET_GET_CARD_TRANSACTION_SESSION, { data: fiterData });
+    await socket.emit(SOCKET_GET_CARD_TRANSACTION_LIST, { data: fiterData });
     await socket
-      .off(SOCKET_GET_CARD_TRANSACTION_SESSION)
-      .on(SOCKET_GET_CARD_TRANSACTION_SESSION, res => {
+      .off(SOCKET_GET_CARD_TRANSACTION_LIST)
+      .on(SOCKET_GET_CARD_TRANSACTION_LIST, res => {
         setLoading(false);
         const resParsed = JSON.parse(res);
         if (resParsed.result) {
-          console.log('SOCKET_GET_CARD_TRANSACTION_SESSION', resParsed.data);
+          console.log('SOCKET_GET_CARD_TRANSACTION_LIST', resParsed.data);
           setData(resParsed.data || []);
         } else {
           setData([]);
@@ -101,14 +102,14 @@ export function CardTransactionSession() {
   return (
     <div>
       <Helmet>
-        <title>Card Transaction Session</title>
+        <title>Card Transaction List</title>
       </Helmet>
 
       <div className="page-header-wrapper">
         <PageHeader
           style={{ paddingLeft: '0', paddingRight: '0' }}
           className="site-page-header"
-          title="Card Transaction Session"
+          title="Card Transaction List"
         />
       </div>
 
@@ -132,4 +133,4 @@ export function CardTransactionSession() {
   );
 }
 
-export default CardTransactionSession;
+export default CardTransactionList;

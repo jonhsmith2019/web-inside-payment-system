@@ -16,5 +16,9 @@ export const routes = {
     transactionList: '/card-transaction-list',
     transactionSession: '/card-transaction-session',
   },
+  momo: {
+    transactionList: '/momo-transaction-list',
+    transactionSession: '/momo-transaction-session',
+  },
 };
 export default routes;

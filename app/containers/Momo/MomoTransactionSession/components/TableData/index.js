@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+// import moment from 'moment';
 import { Table, Badge } from 'antd';
 import './style.css';
 
@@ -19,49 +20,32 @@ export default function TableData(props) {
     },
     {
       title: 'Trans Id',
-      dataIndex: 'myTransId',
-      key: 'myTransId',
-      width: '10%',
+      dataIndex: 'momoTransId',
+      key: 'momoTransId',
+      width: '13%',
     },
     {
-      title: 'Request Trans Id',
-      dataIndex: 'requestTransId',
-      key: 'requestTransId',
+      title: 'Request time',
+      dataIndex: 'requestTime',
+      key: 'requestTime',
+      width: '12%',
+      // render: requestTime =>
+      //   moment
+      //     .unix(parseInt(requestTime / 1000, 10))
+      //     .format('MM/DD/YYYY HH:ss:ss'),
+    },
+    {
+      title: 'phone',
+      dataIndex: 'phone',
+      key: 'phone',
       width: '12%',
     },
-
     {
-      title: 'Amount',
-      dataIndex: 'amount',
-      key: 'amount',
+      title: 'Money',
+      dataIndex: 'money',
+      key: 'money',
       width: '8%',
-      render: amount => new Intl.NumberFormat().format(amount),
-    },
-    {
-      title: 'Callback',
-      render: row => (
-        <div>
-          <div>
-            Real amount:{' '}
-            {new Intl.NumberFormat().format(row.callbackRealAmount)}
-          </div>
-          <div>Message: {row.callbackMessage}</div>
-        </div>
-      ),
-    },
-    {
-      title: 'Card',
-      render: row => (
-        <div>
-          <div>Card number: {row.cardNumber}</div>
-          <div>Serial number: {row.serialNumber}</div>
-        </div>
-      ),
-    },
-    {
-      title: 'Provider TransId',
-      dataIndex: 'providerTransId',
-      key: 'providerTransId',
+      render: money => new Intl.NumberFormat().format(money),
     },
     {
       title: 'Message',

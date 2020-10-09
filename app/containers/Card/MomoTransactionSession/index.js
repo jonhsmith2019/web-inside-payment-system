@@ -28,7 +28,7 @@ const defaultFilter = {
   size: 20,
 };
 
-export function CardTransactionSession() {
+export function MomoTransactionSession() {
   const socket = useContext(WebSocketContext);
   const [loading, setLoading] = useState(false);
   const [filter, setFilterData] = useState(defaultFilter);
@@ -132,4 +132,4 @@ export function CardTransactionSession() {
   );
 }
 
-export default CardTransactionSession;
+export default MomoTransactionSession;

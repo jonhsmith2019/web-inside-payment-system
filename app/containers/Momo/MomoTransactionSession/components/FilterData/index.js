@@ -29,16 +29,17 @@ export default function FilterData(props) {
         layout={isMobile ? 'vertical' : 'inline'}
         onFinish={handleSubmitSearch}
       >
-        <Form.Item name="telcoId">
+        <Form.Item name="accountId">
           <Select
-            placeholder="Chọn Telco"
             allowClear
+            showSearch
+            placeholder="Chọn Account"
             className="xs-width-100"
             style={{ width: 200 }}
           >
-            {props.telco?.map(item => (
+            {props.accounts?.map(item => (
               <Option value={item.id} key={item.id}>
-                {item.name}
+                {item.username}
               </Option>
             ))}
           </Select>
@@ -60,6 +61,6 @@ export default function FilterData(props) {
 }
 
 FilterData.propTypes = {
-  telco: PropTypes.array,
+  accounts: PropTypes.array,
   onSubmitFilter: PropTypes.func,
 };

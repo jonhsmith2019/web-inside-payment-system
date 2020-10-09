@@ -31,7 +31,9 @@ import AccountServiceList from 'containers/AccountService/Loadable';
 import EditAccountService from 'containers/AccountService/EditAccountService/Loadable';
 import AddAccountService from 'containers/AccountService/AddAccountService/Loadable';
 import AccountServiceInfo from 'containers/AccountService/AccountServiceInfo/Loadable';
+import MomoTransactionSession from 'containers/Momo/MomoTransactionSession/Loadable';
 import CardTransactionSession from 'containers/Card/CardTransactionSession/Loadable';
+import CardTransactionList from 'containers/Card/CardTransactionList/Loadable';
 
 import ThemeConfig from 'components/ThemeConfig';
 import Header from 'components/Header';
@@ -197,6 +199,16 @@ export function App(props) {
                     exact
                     path={routes.card.transactionSession}
                     component={CardTransactionSession}
+                  />
+                  <Route
+                    exact
+                    path={routes.card.transactionList}
+                    component={CardTransactionList}
+                  />
+                  <Route
+                    exact
+                    path={routes.momo.transactionSession}
+                    component={MomoTransactionSession}
                   />
 
                   <Route exact path="/" component={Dashboard} />
