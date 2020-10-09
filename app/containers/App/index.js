@@ -32,8 +32,13 @@ import EditAccountService from 'containers/AccountService/EditAccountService/Loa
 import AddAccountService from 'containers/AccountService/AddAccountService/Loadable';
 import AccountServiceInfo from 'containers/AccountService/AccountServiceInfo/Loadable';
 import MomoTransactionSession from 'containers/Momo/MomoTransactionSession/Loadable';
+import MomoTransactionList from 'containers/Momo/MomoTransactionList/Loadable';
 import CardTransactionSession from 'containers/Card/CardTransactionSession/Loadable';
 import CardTransactionList from 'containers/Card/CardTransactionList/Loadable';
+import Card2MomoTransList from 'containers/Card2Momo/Card2MomoTransList/Loadable';
+import Card2MomoRateList from 'containers/Card2Momo/Card2MomoRateList/Loadable';
+import AddCard2MomoRate from 'containers/Card2Momo/Card2MomoRateList/AddRate/Loadable';
+import EditCard2MomoRate from 'containers/Card2Momo/Card2MomoRateList/EditRate/Loadable';
 
 import ThemeConfig from 'components/ThemeConfig';
 import Header from 'components/Header';
@@ -209,6 +214,31 @@ export function App(props) {
                     exact
                     path={routes.momo.transactionSession}
                     component={MomoTransactionSession}
+                  />
+                  <Route
+                    exact
+                    path={routes.momo.transactionList}
+                    component={MomoTransactionList}
+                  />
+                  <Route
+                    exact
+                    path={routes.card2momo.transList}
+                    component={Card2MomoTransList}
+                  />
+                  <Route
+                    exact
+                    path={routes.card2momo.rateList}
+                    component={Card2MomoRateList}
+                  />
+                  <Route
+                    exact
+                    path={routes.card2momo.addRate}
+                    component={AddCard2MomoRate}
+                  />
+                  <Route
+                    exact
+                    path={routes.card2momo.editRate}
+                    component={EditCard2MomoRate}
                   />
 
                   <Route exact path="/" component={Dashboard} />

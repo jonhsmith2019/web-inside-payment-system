@@ -12,42 +12,29 @@ export default function TableData(props) {
       width: '5%',
     },
     {
-      title: 'Date',
-      dataIndex: 'createdDate',
-      key: 'createdDate',
-      width: '10%',
-    },
-    {
       title: 'Trans Id',
-      dataIndex: 'myTransId',
-      key: 'myTransId',
-      width: '10%',
+      dataIndex: 'transId',
+      key: 'transId',
+      width: '13%',
     },
     {
-      title: 'Request Trans Id',
-      dataIndex: 'requestTransId',
-      key: 'requestTransId',
+      title: 'Partner Trans Id',
+      dataIndex: 'partnerTransId',
+      key: 'partnerTransId',
+      width: '13%',
+    },
+    {
+      title: 'Name',
+      dataIndex: 'fullName',
+      key: 'fullName',
       width: '12%',
     },
 
     {
-      title: 'Amount',
-      dataIndex: 'amount',
-      key: 'amount',
+      title: 'Phone',
+      dataIndex: 'phoneNumber',
+      key: 'phoneNumber',
       width: '8%',
-      render: amount => new Intl.NumberFormat().format(amount),
-    },
-    {
-      title: 'Callback',
-      render: row => (
-        <div>
-          <div>
-            Real amount:{' '}
-            {new Intl.NumberFormat().format(row.callbackRealAmount)}
-          </div>
-          <div>Message: {row.callbackMessage}</div>
-        </div>
-      ),
     },
     {
       title: 'Card',
@@ -59,15 +46,21 @@ export default function TableData(props) {
       ),
     },
     {
-      title: 'Provider TransId',
-      dataIndex: 'providerTransId',
-      key: 'providerTransId',
+      title: 'Rate',
+      dataIndex: 'rate',
+      key: 'rate',
+      render: rate => (
+        <div>
+          <div>Amount: {new Intl.NumberFormat().format(rate.amount)}</div>
+          <div>Rate: {rate.rate}</div>
+          <div>Telco: {rate.telco?.name}</div>
+        </div>
+      ),
     },
     {
-      title: 'Message',
-      dataIndex: 'message',
-      key: 'message',
-      width: '15%',
+      title: 'Response data',
+      dataIndex: 'rawResponseData',
+      key: 'rawResponseData',
     },
     {
       title: 'Trạng thái',

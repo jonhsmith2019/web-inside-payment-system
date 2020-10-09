@@ -1,35 +1,22 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Helmet } from 'react-helmet';
-import moment from 'moment';
-import { PageHeader } from 'antd';
+import { Link } from 'react-router-dom';
 import _get from 'lodash/get';
+import { PageHeader } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { WebSocketContext } from 'containers/WebSocket';
 import TableData from './components/TableData';
-import FilterData from './components/FilterData';
-import { SOCKET_GET_MOMO_TRANSACTION_SESSION } from './constants';
-
-const dateFormat = 'DD/MM/YYYY HH:mm:ss';
+import { SOCKET_GET_CARD2MOMO_RATE_LIST } from './constants';
 
 const defaultFilter = {
-  keyword: '',
-  // fromDate: '13/09/2020 00:00:00',
-  // toDate: '13/12/2020 23:59:59',
-  fromDate: moment()
-    .subtract(7, 'd')
-    .startOf('day')
-    .format(dateFormat),
-  toDate: moment()
-    .endOf('day')
-    .format(dateFormat),
   page: 0,
   size: 20,
 };
-
-export function MomoTransactionSession() {
+export function Card2MomoRateList() {
   const socket = useContext(WebSocketContext);
   const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([]);
   const [filter, setFilterData] = useState(defaultFilter);
-  const [data, setData] = useState({});
 
   useEffect(() => {
     getData(filter);
@@ -38,15 +25,15 @@ export function MomoTransactionSession() {
   const getData = async fiterData => {
     setLoading(true);
 
-    await socket.emit(SOCKET_GET_MOMO_TRANSACTION_SESSION, { data: fiterData });
+    await socket.emit(SOCKET_GET_CARD2MOMO_RATE_LIST, { data: fiterData });
     await socket
-      .off(SOCKET_GET_MOMO_TRANSACTION_SESSION)
-      .on(SOCKET_GET_MOMO_TRANSACTION_SESSION, res => {
+      .off(SOCKET_GET_CARD2MOMO_RATE_LIST)
+      .on(SOCKET_GET_CARD2MOMO_RATE_LIST, res => {
         setLoading(false);
         const resParsed = JSON.parse(res);
         if (resParsed.result) {
-          console.log('SOCKET_GET_MOMO_TRANSACTION_SESSION', resParsed.data);
-          setData(resParsed.data || []);
+          console.log('SOCKET_GET_CARD2MOMO_RATE_LIST', resParsed.data);
+          setData(resParsed.data);
         } else {
           setData([]);
         }
@@ -62,38 +49,27 @@ export function MomoTransactionSession() {
     getData(newFilter);
   };
 
-  const handleSubmitFilter = values => {
-    setLoading(true);
-    const newFilter = {
-      ...filter,
-      ...values,
-      fromDate: values?.dateRange
-        ? values.dateRange[0].startOf('day').format(dateFormat)
-        : null,
-      toDate: values?.dateRange
-        ? values.dateRange[1].endOf('day').format(dateFormat)
-        : null,
-    };
-    console.log('query:', newFilter);
-    getData(newFilter);
-  };
-
   return (
     <div>
       <Helmet>
-        <title>Momo Transaction Session</title>
+        <title>Card2Momo Rate List</title>
       </Helmet>
 
       <div className="page-header-wrapper">
         <PageHeader
           style={{ paddingLeft: '0', paddingRight: '0' }}
           className="site-page-header"
-          title="Momo Transaction Session"
+          title="Card2Momo Rate List"
+          extra={[
+            <Link
+              key="1"
+              to="/card2momo-rate/add"
+              className="ant-btn ant-btn-primary ant-btn-background-ghost"
+            >
+              <PlusOutlined style={{ verticalAlign: '1px' }} /> Tạo mới
+            </Link>,
+          ]}
         />
-      </div>
-
-      <div style={{ marginTop: '20px' }}>
-        <FilterData onSubmitFilter={handleSubmitFilter} />
       </div>
 
       <div style={{ margin: '20px auto' }}>
@@ -103,7 +79,7 @@ export function MomoTransactionSession() {
           pagination={{
             current: _get(filter, 'page', 1) + 1,
             pageSize: _get(filter, 'size', 20),
-            total: data.totalElements,
+            total: data?.totalElements || 0,
           }}
           onTableChange={handleTableChange}
         />
@@ -112,4 +88,4 @@ export function MomoTransactionSession() {
   );
 }
 
-export default MomoTransactionSession;
+export default Card2MomoRateList;

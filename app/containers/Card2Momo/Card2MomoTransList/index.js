@@ -6,14 +6,10 @@ import _get from 'lodash/get';
 import { WebSocketContext } from 'containers/WebSocket';
 import TableData from './components/TableData';
 import FilterData from './components/FilterData';
-import {
-  SOCKET_GET_CARD_TRANSACTION_SESSION,
-  EVENT_SOCKET_GET_TELCO,
-} from './constants';
+import { SOCKET_GET_CARD2MOMO_TRANSACTION_LIST } from './constants';
 const dateFormat = 'DD/MM/YYYY HH:mm:ss';
 
 const defaultFilter = {
-  telcoId: null,
   keyword: '',
   // fromDate: '13/09/2020 00:00:00',
   // toDate: '13/12/2020 23:59:59',
@@ -28,44 +24,29 @@ const defaultFilter = {
   size: 20,
 };
 
-export function MomoTransactionSession() {
+export function Card2MomoTransList() {
   const socket = useContext(WebSocketContext);
   const [loading, setLoading] = useState(false);
   const [filter, setFilterData] = useState(defaultFilter);
   const [data, setData] = useState({});
-  const [telco, setDataTelco] = useState([]);
 
   useEffect(() => {
-    getTelco({});
     getData(filter);
   }, []);
-
-  const getTelco = async fiterData => {
-    setLoading(true);
-
-    await socket.emit(EVENT_SOCKET_GET_TELCO, { data: fiterData });
-    await socket.on(EVENT_SOCKET_GET_TELCO, res => {
-      setLoading(false);
-      const resParsed = JSON.parse(res);
-      if (resParsed.result) {
-        setDataTelco(resParsed.data);
-      } else {
-        setDataTelco([]);
-      }
-    });
-  };
 
   const getData = async fiterData => {
     setLoading(true);
 
-    await socket.emit(SOCKET_GET_CARD_TRANSACTION_SESSION, { data: fiterData });
+    await socket.emit(SOCKET_GET_CARD2MOMO_TRANSACTION_LIST, {
+      data: fiterData,
+    });
     await socket
-      .off(SOCKET_GET_CARD_TRANSACTION_SESSION)
-      .on(SOCKET_GET_CARD_TRANSACTION_SESSION, res => {
+      .off(SOCKET_GET_CARD2MOMO_TRANSACTION_LIST)
+      .on(SOCKET_GET_CARD2MOMO_TRANSACTION_LIST, res => {
         setLoading(false);
         const resParsed = JSON.parse(res);
         if (resParsed.result) {
-          console.log('SOCKET_GET_CARD_TRANSACTION_SESSION', resParsed.data);
+          console.log('SOCKET_GET_CARD2MOMO_TRANSACTION_LIST', resParsed.data);
           setData(resParsed.data || []);
         } else {
           setData([]);
@@ -94,26 +75,26 @@ export function MomoTransactionSession() {
         ? values.dateRange[1].endOf('day').format(dateFormat)
         : null,
     };
-    // console.log('query:', newFilter);
+    console.log('query:', newFilter);
     getData(newFilter);
   };
 
   return (
     <div>
       <Helmet>
-        <title>Card Transaction Session</title>
+        <title>Card2Momo Transaction List</title>
       </Helmet>
 
       <div className="page-header-wrapper">
         <PageHeader
           style={{ paddingLeft: '0', paddingRight: '0' }}
           className="site-page-header"
-          title="Card Transaction Session"
+          title="Card2Momo Transaction List"
         />
       </div>
 
       <div style={{ marginTop: '20px' }}>
-        <FilterData telco={telco} onSubmitFilter={handleSubmitFilter} />
+        <FilterData onSubmitFilter={handleSubmitFilter} />
       </div>
 
       <div style={{ margin: '20px auto' }}>
@@ -132,4 +113,4 @@ export function MomoTransactionSession() {
   );
 }
 
-export default MomoTransactionSession;
+export default Card2MomoTransList;

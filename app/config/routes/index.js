@@ -20,5 +20,11 @@ export const routes = {
     transactionList: '/momo-transaction-list',
     transactionSession: '/momo-transaction-session',
   },
+  card2momo: {
+    transList: '/card2momo-transaction-list',
+    rateList: '/card2momo-rate-list',
+    addRate: '/card2momo-rate/add',
+    editRate: '/card2momo-rate/:id',
+  },
 };
 export default routes;

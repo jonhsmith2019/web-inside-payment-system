@@ -109,8 +109,8 @@ export default function TableData(props) {
         columns={columns}
         dataSource={props.data}
         loading={props.loading}
-        pagination={false}
-        // onChange={props.onTableChange}
+        pagination={props.pagination}
+        onChange={props.onTableChange}
         className="table-responsive table-account-service"
       />
     </>
@@ -118,7 +118,8 @@ export default function TableData(props) {
 }
 
 TableData.propTypes = {
-  // onTableChange: PropTypes.func,
+  onTableChange: PropTypes.func,
+  pagination: PropTypes.object,
   data: PropTypes.array,
   loading: PropTypes.bool,
 };

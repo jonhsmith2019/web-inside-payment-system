@@ -8,13 +8,14 @@ import TableData from './components/TableData';
 import FilterData from './components/FilterData';
 import {
   SOCKET_GET_CARD_TRANSACTION_LIST,
+  SOCKET_GET_ACCOUNT_LIST,
   EVENT_SOCKET_GET_TELCO,
 } from './constants';
 const dateFormat = 'DD/MM/YYYY HH:mm:ss';
 
 const defaultFilter = {
-  telcoId: 27,
-  accountId: 1,
+  telcoId: null,
+  accountId: null,
   keyword: '',
   // fromDate: '13/09/2020 00:00:00',
   // toDate: '13/12/2020 23:59:59',
@@ -35,11 +36,31 @@ export function CardTransactionList() {
   const [filter, setFilterData] = useState(defaultFilter);
   const [data, setData] = useState({});
   const [telco, setDataTelco] = useState([]);
+  const [accounts, setDataAccounts] = useState([]);
 
   useEffect(() => {
     getTelco({});
+    getAccounts({
+      page: 0,
+      size: 100,
+    });
     getData(filter);
   }, []);
+
+  const getAccounts = async fiterData => {
+    setLoading(true);
+
+    await socket.emit(SOCKET_GET_ACCOUNT_LIST, { data: fiterData });
+    await socket.on(SOCKET_GET_ACCOUNT_LIST, res => {
+      setLoading(false);
+      const resParsed = JSON.parse(res);
+      if (resParsed.result) {
+        setDataAccounts(resParsed.data?.content);
+      } else {
+        setDataAccounts([]);
+      }
+    });
+  };
 
   const getTelco = async fiterData => {
     setLoading(true);
@@ -114,7 +135,11 @@ export function CardTransactionList() {
       </div>
 
       <div style={{ marginTop: '20px' }}>
-        <FilterData telco={telco} onSubmitFilter={handleSubmitFilter} />
+        <FilterData
+          accounts={accounts}
+          telco={telco}
+          onSubmitFilter={handleSubmitFilter}
+        />
       </div>
 
       <div style={{ margin: '20px auto' }}>

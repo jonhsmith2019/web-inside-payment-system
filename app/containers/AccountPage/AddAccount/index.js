@@ -52,7 +52,7 @@ export function AddAccount(props) {
     };
 
     await socket.emit(SOCKET_ADD_ACCOUNT, { data: user });
-    await socket.on(SOCKET_ADD_ACCOUNT, res => {
+    await socket.off(SOCKET_ADD_ACCOUNT).on(SOCKET_ADD_ACCOUNT, res => {
       setLoading(false);
       const resParsed = JSON.parse(res);
       if (resParsed.result) {

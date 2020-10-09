@@ -11,8 +11,6 @@ export default function FilterData(props) {
   const [form] = Form.useForm();
   useEffect(() => {
     form.setFieldsValue({
-      keyword: '',
-      roomKind: '0',
       dateRange: [moment().subtract(7, 'd'), moment()],
     });
   }, []);
@@ -29,6 +27,21 @@ export default function FilterData(props) {
         layout={isMobile ? 'vertical' : 'inline'}
         onFinish={handleSubmitSearch}
       >
+        <Form.Item name="accountId">
+          <Select
+            allowClear
+            showSearch
+            placeholder="Chọn Account"
+            className="xs-width-100"
+            style={{ width: 200 }}
+          >
+            {props.accounts?.map(item => (
+              <Option value={item.id} key={item.id}>
+                {item.username}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
         <Form.Item name="telcoId">
           <Select
             placeholder="Chọn Telco"
@@ -60,6 +73,7 @@ export default function FilterData(props) {
 }
 
 FilterData.propTypes = {
+  accounts: PropTypes.array,
   telco: PropTypes.array,
   onSubmitFilter: PropTypes.func,
 };

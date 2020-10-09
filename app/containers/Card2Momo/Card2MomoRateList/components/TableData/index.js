@@ -12,14 +12,15 @@ export default function TableData(props) {
       key: 'id',
     },
     {
-      title: 'Username',
-      dataIndex: 'username',
-      key: 'username',
+      title: 'Rate',
+      dataIndex: 'rate',
+      key: 'rate',
     },
     {
-      title: 'App',
-      dataIndex: 'app',
-      key: 'app',
+      title: 'Amount',
+      dataIndex: 'amount',
+      key: 'amount',
+      render: amount => new Intl.NumberFormat().format(amount),
     },
     {
       title: 'Trạng thái',
@@ -42,18 +43,12 @@ export default function TableData(props) {
       ),
     },
     {
-      title: 'Group',
-      dataIndex: 'group',
-      key: 'group',
-      render: group => <span>{group && group.groupName}</span>,
-    },
-    {
       title: '',
-      width: '100px',
+      width: '120px',
       align: 'center',
       render: record => (
         <div>
-          <Link to={`/account/${record.id}`}>Sửa</Link>
+          <Link to={`/card2momo-rate/${record.id}`}>Sửa</Link>
         </div>
       ),
     },
@@ -67,9 +62,9 @@ export default function TableData(props) {
         columns={columns}
         dataSource={props.data}
         loading={props.loading}
-        pagination={false}
+        pagination={props.pagination}
         onChange={props.onTableChange}
-        className="table-responsive table-account"
+        className="table-responsive table-rate"
       />
     </>
   );
@@ -77,6 +72,7 @@ export default function TableData(props) {
 
 TableData.propTypes = {
   onTableChange: PropTypes.func,
+  pagination: PropTypes.object,
   data: PropTypes.array,
   loading: PropTypes.bool,
 };

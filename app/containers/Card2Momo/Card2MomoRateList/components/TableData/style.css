@@ -1,8 +1,8 @@
 @media only screen and (max-width: 640px) {
-  .table-responsive.table-account table {
-    width: 800px;
+  .table-responsive.table-rate table {
+    width: 500px;
   }
-  .table-responsive.table-account .ant-table-content {
+  .table-responsive.table-rate .ant-table-content {
     overflow: auto;
   }
   .xs-width-100 {

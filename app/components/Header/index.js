@@ -77,7 +77,7 @@ function Header(props) {
                     color: '#fff',
                   }}
                 >
-                  <span>F</span>inside
+                  <span>Payment</span>
                 </Link>
               </h1>
             </div>

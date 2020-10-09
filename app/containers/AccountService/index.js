@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
+import _get from 'lodash/get';
 import { PageHeader, Row, Col } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { WebSocketContext } from 'containers/WebSocket';
@@ -11,10 +12,16 @@ import {
   SOCKET_GET_ACCOUNT_LIST,
 } from './constants';
 
+const defaultFilter = {
+  accountId: null,
+  page: 0,
+  size: 20,
+};
 export function AccountServiceList(props) {
   const socket = useContext(WebSocketContext);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [filter, setFilterData] = useState(defaultFilter);
   const [accounts, setDataAccounts] = useState([]);
 
   useEffect(() => {
@@ -55,7 +62,7 @@ export function AccountServiceList(props) {
         setLoading(false);
         const resParsed = JSON.parse(res);
         if (resParsed.result) {
-          // console.log('SOCKET_GET_ACCOUNT_SERVICE_LIST', resParsed.data);
+          console.log('SOCKET_GET_ACCOUNT_SERVICE_LIST', resParsed.data);
           setData(resParsed.data);
         } else {
           setData([]);
@@ -72,6 +79,15 @@ export function AccountServiceList(props) {
     getData(newFilter);
   };
 
+  const handleTableChange = pagination => {
+    setLoading(true);
+    const newFilter = filter;
+    newFilter.page = pagination.current - 1;
+    newFilter.size = pagination.pageSize;
+    setFilterData(newFilter);
+    getData(newFilter);
+  };
+
   return (
     <div>
       <Helmet>
@@ -83,6 +99,15 @@ export function AccountServiceList(props) {
           style={{ paddingLeft: '0', paddingRight: '0' }}
           className="site-page-header"
           title="Account Service List"
+          extra={[
+            <Link
+              key="1"
+              to="/account-service/add"
+              className="ant-btn ant-btn-primary ant-btn-background-ghost"
+            >
+              <PlusOutlined style={{ verticalAlign: '1px' }} /> Tạo mới
+            </Link>,
+          ]}
         />
       </div>
 
@@ -95,7 +120,7 @@ export function AccountServiceList(props) {
               onSubmitFilter={handleSubmitFilter}
             />
           </Col>
-          <Col xs={24} md={12} xl={6}>
+          {/* <Col xs={24} md={12} xl={6}>
             <div style={{ textAlign: 'right' }}>
               <Link
                 key="1"
@@ -105,12 +130,21 @@ export function AccountServiceList(props) {
                 <PlusOutlined style={{ verticalAlign: '1px' }} /> Tạo mới
               </Link>
             </div>
-          </Col>
+          </Col> */}
         </Row>
       </div>
 
       <div style={{ margin: '20px auto' }}>
-        <TableData loading={loading} data={data} />
+        <TableData
+          loading={loading}
+          data={data}
+          pagination={{
+            current: _get(filter, 'page', 1) + 1,
+            pageSize: _get(filter, 'size', 20),
+            total: data?.totalElements || 0,
+          }}
+          onTableChange={handleTableChange}
+        />
       </div>
     </div>
   );

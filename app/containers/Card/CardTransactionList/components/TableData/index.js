@@ -21,7 +21,7 @@ export default function TableData(props) {
       title: 'Trans Id',
       dataIndex: 'myTransId',
       key: 'myTransId',
-      width: '10%',
+      width: '13%',
     },
     {
       title: 'Request Trans Id',
@@ -57,11 +57,6 @@ export default function TableData(props) {
           <div>Serial number: {row.serialNumber}</div>
         </div>
       ),
-    },
-    {
-      title: 'Provider TransId',
-      dataIndex: 'providerTransId',
-      key: 'providerTransId',
     },
     {
       title: 'Message',
