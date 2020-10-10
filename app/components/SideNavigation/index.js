@@ -15,6 +15,7 @@ import { createStructuredSelector } from 'reselect';
 import { isBrowser } from 'react-device-detect';
 import { makeSelectLocation } from 'containers/App/selectors';
 
+import { ICONS } from './const';
 import './style.css';
 const { SubMenu } = Menu;
 const { Sider } = Layout;
@@ -103,12 +104,16 @@ export function SideNavigation({ menu, location, theme, collapsedMenu }) {
         {menu.map(item => {
           const subMenu = _filter(menu, ['parent.id', item.id]);
           if (!item.parent && item.enabled === 1) {
+            console.log(item);
             return (
               <SubMenu
                 key={`menu_${item.id}`}
                 title={
                   <span>
-                    <span>{item.menuName}</span>
+                    <span>
+                      {ICONS[item.menuCmd]}
+                      {item.menuName}
+                    </span>
                   </span>
                 }
                 className="sidebar__sub-menu"
