@@ -42,3 +42,6 @@ label {
 .ant-page-header-heading-title {
   text-transform: uppercase;
 }
+.ant-menu {
+  text-transform: capitalize;
+}

@@ -154,6 +154,7 @@ export function EditAccount(props) {
                   required: true,
                 },
               ]}
+              style={{ display: 'none' }}
             >
               <Input type="hidden" />
             </Form.Item>

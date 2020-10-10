@@ -22,6 +22,12 @@ export default function TableData(props) {
       key: 'app',
     },
     {
+      title: 'Group',
+      dataIndex: 'group',
+      key: 'group',
+      render: group => <span>{group && group.groupName}</span>,
+    },
+    {
       title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
@@ -40,12 +46,6 @@ export default function TableData(props) {
           )}
         </span>
       ),
-    },
-    {
-      title: 'Group',
-      dataIndex: 'group',
-      key: 'group',
-      render: group => <span>{group && group.groupName}</span>,
     },
     {
       title: '',

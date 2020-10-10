@@ -1,6 +1,6 @@
 @media only screen and (max-width: 640px) {
   .table-responsive.table-account table {
-    width: 800px;
+    width: 700px;
   }
   .table-responsive.table-account .ant-table-content {
     overflow: auto;

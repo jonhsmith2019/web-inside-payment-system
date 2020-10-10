@@ -48,7 +48,12 @@ export default function FilterData(props) {
           <RangePicker format="DD/MM/YYYY" />
         </Form.Item>
         <Form.Item>
-          <Button htmlType="submit" type="primary" icon={<SearchOutlined />}>
+          <Button
+            htmlType="submit"
+            type="primary"
+            block={isMobile ? 'true' : 'false'}
+            icon={<SearchOutlined />}
+          >
             Search
           </Button>
         </Form.Item>
