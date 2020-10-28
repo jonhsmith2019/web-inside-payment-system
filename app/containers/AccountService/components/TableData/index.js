@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Table, Badge, Popover } from 'antd';
+import { Table, Badge } from 'antd';
 import './style.css';
 
 export default function TableData(props) {
@@ -12,36 +12,10 @@ export default function TableData(props) {
       key: 'id',
     },
     {
-      title: 'Account',
+      title: 'App',
       dataIndex: 'account',
       key: 'account',
-      render: account => (
-        <Popover
-          content={
-            <div>
-              <p>
-                <span>ID: </span>
-                {account.id}
-              </p>
-              <p>
-                <span>App: </span>
-                {account.app}
-              </p>
-              <p>
-                <span>Group: </span>
-                {account.group.groupName}
-              </p>
-              <p>
-                <span>Status: </span>
-                {account.status}
-              </p>
-            </div>
-          }
-          title="Title"
-        >
-          {account.username}
-        </Popover>
-      ),
+      render: account => account.app,
     },
     {
       title: 'Secret Key',
