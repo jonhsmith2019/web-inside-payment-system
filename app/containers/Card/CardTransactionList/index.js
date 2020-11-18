@@ -142,6 +142,12 @@ export function CardTransactionList() {
         />
       </div>
 
+      {data.totalMoney && (
+        <div style={{ marginTop: '20px' }}>
+          <b>Total money: {new Intl.NumberFormat().format(data.totalMoney)}</b>
+        </div>
+      )}
+
       <div style={{ margin: '20px auto' }}>
         <TableData
           loading={loading}
