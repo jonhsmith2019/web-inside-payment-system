@@ -36,6 +36,8 @@ import MomoTransactionList from 'containers/Momo/MomoTransactionList/Loadable';
 import CardTransactionSession from 'containers/Card/CardTransactionSession/Loadable';
 import CardTransactionList from 'containers/Card/CardTransactionList/Loadable';
 import Card2MomoTransList from 'containers/Card2Momo/Card2MomoTransList/Loadable';
+import CryptoTransList from 'containers/CryptoService/CryptoTransList/Loadable';
+import CryptoTransSession from 'containers/CryptoService/CryptoTransSession/Loadable';
 import Card2MomoRateList from 'containers/Card2Momo/Card2MomoRateList/Loadable';
 import AddCard2MomoRate from 'containers/Card2Momo/Card2MomoRateList/AddRate/Loadable';
 import EditCard2MomoRate from 'containers/Card2Momo/Card2MomoRateList/EditRate/Loadable';
@@ -224,6 +226,16 @@ export function App(props) {
                     exact
                     path={routes.card2momo.transList}
                     component={Card2MomoTransList}
+                  />
+                  <Route
+                    exact
+                    path={routes.crypto.transactionSession}
+                    component={CryptoTransSession}
+                  />
+                  <Route
+                    exact
+                    path={routes.crypto.transList}
+                    component={CryptoTransList}
                   />
                   <Route
                     exact

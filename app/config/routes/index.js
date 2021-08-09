@@ -26,5 +26,9 @@ export const routes = {
     addRate: '/card2momo-rate/add',
     editRate: '/card2momo-rate/:id',
   },
+  crypto: {
+    transactionList: '/crypto-transaction-list',
+    transactionSession: '/crypto-transaction-session',
+  },
 };
 export default routes;

@@ -5,6 +5,7 @@ import {
   CustomerServiceOutlined,
   MediumOutlined,
   CopyrightOutlined,
+  EuroCircleOutlined,
 } from '@ant-design/icons';
 
 export const ICONS = {
@@ -13,4 +14,5 @@ export const ICONS = {
   CARD: <CopyrightOutlined />,
   MOMO: <MediumOutlined />,
   CARD2MOMO: <DollarCircleOutlined />,
+  CRYPTO_SERVICE: <EuroCircleOutlined />,
 };

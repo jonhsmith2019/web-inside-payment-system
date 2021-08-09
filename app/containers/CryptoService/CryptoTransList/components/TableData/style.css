@@ -1,0 +1,14 @@
+@media only screen and (max-width: 640px) {
+  .table-responsive.table-account-service table {
+    width: 1500px;
+  }
+  .table-responsive.table-account-service .ant-table-content {
+    overflow: auto;
+  }
+  .xs-width-100 {
+    width: 100% !important;
+  }
+  .ant-picker-range {
+    width: 100%;
+  }
+}
