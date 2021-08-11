@@ -104,7 +104,6 @@ export function SideNavigation({ menu, location, theme, collapsedMenu }) {
         {menu.map(item => {
           const subMenu = _filter(menu, ['parent.id', item.id]);
           if (!item.parent && item.enabled === 1) {
-            console.log(item);
             return (
               <SubMenu
                 key={`menu_${item.id}`}

@@ -47,15 +47,17 @@ export function MomoTransactionList() {
     setLoading(true);
 
     await socket.emit(SOCKET_GET_ACCOUNT_LIST, { data: fiterData });
-    await socket.on(SOCKET_GET_ACCOUNT_LIST, res => {
-      setLoading(false);
-      const resParsed = JSON.parse(res);
-      if (resParsed.result) {
-        setDataAccounts(resParsed.data?.content);
-      } else {
-        setDataAccounts([]);
-      }
-    });
+    await socket
+      .off(SOCKET_GET_ACCOUNT_LIST)
+      .on(SOCKET_GET_ACCOUNT_LIST, res => {
+        setLoading(false);
+        const resParsed = JSON.parse(res);
+        if (resParsed.result) {
+          setDataAccounts(resParsed.data?.content);
+        } else {
+          setDataAccounts([]);
+        }
+      });
   };
 
   const getData = async fiterData => {

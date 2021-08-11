@@ -6,11 +6,14 @@ import _get from 'lodash/get';
 import { WebSocketContext } from 'containers/WebSocket';
 import TableData from './components/TableData';
 import FilterData from './components/FilterData';
-import { SOCKET_GET_CRYPTO_TRANSACTION_LIST } from './constants';
+import {
+  SOCKET_GET_CRYPTO_TRANSACTION_LIST,
+  SOCKET_GET_ACCOUNT_LIST,
+} from './constants';
 const dateFormat = 'DD/MM/YYYY HH:mm:ss';
 
 const defaultFilter = {
-  accountId: 1,
+  accountId: '',
   keyword: '',
   // fromDate: '13/09/2020 00:00:00',
   // toDate: '13/12/2020 23:59:59',
@@ -30,10 +33,32 @@ export function CryptoTransList() {
   const [loading, setLoading] = useState(false);
   const [filter, setFilterData] = useState(defaultFilter);
   const [data, setData] = useState({});
+  const [accounts, setDataAccounts] = useState([]);
 
   useEffect(() => {
+    getAccounts({
+      page: 0,
+      size: 100,
+    });
     getData(filter);
   }, []);
+
+  const getAccounts = async fiterData => {
+    setLoading(true);
+
+    await socket.emit(SOCKET_GET_ACCOUNT_LIST, { data: fiterData });
+    await socket
+      .off(SOCKET_GET_ACCOUNT_LIST)
+      .on(SOCKET_GET_ACCOUNT_LIST, res => {
+        setLoading(false);
+        const resParsed = JSON.parse(res);
+        if (resParsed.result) {
+          setDataAccounts(resParsed.data?.content);
+        } else {
+          setDataAccounts([]);
+        }
+      });
+  };
 
   const getData = async fiterData => {
     setLoading(true);
@@ -47,7 +72,7 @@ export function CryptoTransList() {
         setLoading(false);
         const resParsed = JSON.parse(res);
         if (resParsed.result) {
-          console.log('SOCKET_GET_CRYPTO_TRANSACTION_LIST', resParsed.data);
+          // console.log('SOCKET_GET_CRYPTO_TRANSACTION_LIST', resParsed.data);
           setData(resParsed.data || []);
         } else {
           setData([]);
@@ -76,7 +101,7 @@ export function CryptoTransList() {
         ? values.dateRange[1].endOf('day').format(dateFormat)
         : null,
     };
-    console.log('query:', newFilter);
+    // console.log('query:', newFilter);
     getData(newFilter);
   };
 
@@ -95,9 +120,11 @@ export function CryptoTransList() {
       </div>
 
       <div style={{ marginTop: '20px' }}>
-        <FilterData onSubmitFilter={handleSubmitFilter} />
+        <FilterData accounts={accounts} onSubmitFilter={handleSubmitFilter} />
       </div>
-
+      <div>
+        <b>Total:</b> {new Intl.NumberFormat().format(data?.totalMoney || 0)}
+      </div>
       <div style={{ margin: '20px auto' }}>
         <TableData
           loading={loading}

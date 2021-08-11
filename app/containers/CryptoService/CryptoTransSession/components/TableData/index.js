@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Table, Badge } from 'antd';
@@ -37,15 +38,20 @@ export default function TableData(props) {
       width: '10%',
       render: status => (
         <span>
-          {status === 1 ? (
+          {status === 2 ? (
             <span>
               <Badge status="success" />
               Thành công
             </span>
-          ) : (
+          ) : status === 1 ? (
             <span>
               <Badge status="error" />
-              Thất bại
+              Chờ callback
+            </span>
+          ) : (
+            <span>
+              <Badge status="warning" />
+              Khởi tạo
             </span>
           )}
         </span>

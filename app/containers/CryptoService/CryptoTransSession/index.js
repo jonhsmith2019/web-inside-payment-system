@@ -10,7 +10,6 @@ import { SOCKET_GET_CRYPTO_TRANSACTION_SESSION } from './constants';
 const dateFormat = 'DD/MM/YYYY HH:mm:ss';
 
 const defaultFilter = {
-  accountId: 1,
   keyword: '',
   // fromDate: '13/09/2020 00:00:00',
   // toDate: '13/12/2020 23:59:59',
@@ -47,7 +46,7 @@ export function CryptoTransSession() {
         setLoading(false);
         const resParsed = JSON.parse(res);
         if (resParsed.result) {
-          console.log('SOCKET_GET_CRYPTO_TRANSACTION_SESSION', resParsed.data);
+          // console.log('SOCKET_GET_CRYPTO_TRANSACTION_SESSION', resParsed.data);
           setData(resParsed.data || []);
         } else {
           setData([]);
@@ -96,6 +95,9 @@ export function CryptoTransSession() {
 
       <div style={{ marginTop: '20px' }}>
         <FilterData onSubmitFilter={handleSubmitFilter} />
+      </div>
+      <div>
+        <b>Total:</b> {new Intl.NumberFormat().format(data?.totalMoney || 0)}
       </div>
 
       <div style={{ margin: '20px auto' }}>

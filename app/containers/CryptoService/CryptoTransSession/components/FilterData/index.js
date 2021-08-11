@@ -10,6 +10,7 @@ export default function FilterData(props) {
   const [form] = Form.useForm();
   useEffect(() => {
     form.setFieldsValue({
+      keyword: '',
       dateRange: [moment().subtract(7, 'd'), moment()],
     });
   }, []);
